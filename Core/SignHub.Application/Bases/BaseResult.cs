@@ -9,11 +9,10 @@ public class BaseResult<T>
     public IEnumerable<Error>? Errors { get; set; }
 
     [JsonIgnore]
-    public bool IsSuccess => Errors != null && Errors.Any();
+    public bool IsSuccess => Errors == null || !Errors.Any();
 
     [JsonIgnore]
     public bool IsFailure => !IsSuccess;
-
 
     public static BaseResult<T> Success(T data)
     {

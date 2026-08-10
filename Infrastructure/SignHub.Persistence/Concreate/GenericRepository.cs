@@ -38,7 +38,7 @@ public class GenericRepository<T>(SignHubContext context) : IGenericRepository<T
         return await _dbset.AsNoTracking().FirstOrDefaultAsync(filter);
     }
 
-    public IQueryable GetByQueries()
+    public IQueryable GetByQuery()
     {
         return _dbset;
     }

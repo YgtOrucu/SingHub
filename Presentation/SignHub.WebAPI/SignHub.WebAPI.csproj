@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\SignHub.Application\SignHub.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\SignHub.Persistence\SignHub.Persistence.csproj" />
   </ItemGroup>
 

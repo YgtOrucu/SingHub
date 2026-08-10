@@ -3,7 +3,7 @@ using MediatR;
 
 namespace SignHub.Application.Behavior;
 
-public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator> _validators) : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> _validators) : IPipelineBehavior<TRequest, TResponse>
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {

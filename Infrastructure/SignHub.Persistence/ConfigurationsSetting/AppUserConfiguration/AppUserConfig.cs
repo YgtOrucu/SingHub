@@ -10,7 +10,7 @@ public class AppUserConfig : IEntityTypeConfiguration<AppUser>
     {
         builder.Property(x => x.Name).HasColumnType("varchar(50)").IsRequired(true);
         builder.Property(x => x.Surname).HasColumnType("varchar(50)").IsRequired(true);
-        builder.Property(x => x.AvatarUrl).HasColumnType("varchar(250)").IsRequired(true);
+        builder.Property(x => x.AvatarUrl).HasColumnType("varchar(250)").IsRequired(false);
 
 
 
