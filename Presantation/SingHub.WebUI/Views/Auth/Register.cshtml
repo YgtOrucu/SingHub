@@ -1,0 +1,108 @@
+﻿@model RegisterDto
+@{
+    ViewData["Title"] = "Register | SingHub";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="~/css/register.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+
+    <div class="auth-wrapper">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18V5l12-2v13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="6" cy="18" r="3" stroke="#fff" stroke-width="1.8" />
+                    <circle cx="18" cy="16" r="3" stroke="#fff" stroke-width="1.8" />
+                </svg>
+            </div>
+            <span class="brand-name">SingHub</span>
+        </div>
+
+        <div class="card">
+            <h1>Create your account</h1>
+            <p class="subtitle">Join SingHub and start streaming in minutes.</p>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert-box">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="9" stroke="#fca5a5" stroke-width="1.8" />
+                        <path d="M12 8v5" stroke="#fca5a5" stroke-width="1.8" stroke-linecap="round" />
+                        <circle cx="12" cy="16" r="0.9" fill="#fca5a5" />
+                    </svg>
+                    <div>
+                        <strong>Please fix the following:</strong>
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+
+            <div class="info-toast">
+                <span class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4h16v16H4z" stroke="none" />
+                        <path d="M3 7l9 6 9-6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="#fff" stroke-width="1.8" />
+                    </svg>
+                </span>
+                <p><strong>Almost there!</strong> Upon registration, you will be redirected to Login while we send your welcome email.</p>
+            </div>
+
+            <form asp-controller="Auth" asp-action="Register" method="post" novalidate>
+
+                <div class="two-col">
+                    <div class="form-group">
+                        <label asp-for="Name">First name</label>
+                        <input asp-for="Name" class="input-control" type="text" placeholder="John" autocomplete="given-name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Surname">Last name</label>
+                        <input asp-for="Surname" class="input-control" type="text" placeholder="Doe" autocomplete="family-name" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UserName">Username</label>
+                    <input asp-for="UserName" class="input-control" type="text" placeholder="johndoe" autocomplete="username" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email address</label>
+                    <input asp-for="Email" class="input-control" type="email" placeholder="you@example.com" autocomplete="email" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" class="input-control" type="password" placeholder="••••••••" autocomplete="new-password" />
+                </div>
+
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+
+            <p class="footer-note">
+                Already have an account? <a asp-controller="Auth" asp-action="Login">Log in</a>
+            </p>
+        </div>
+    </div>
+
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

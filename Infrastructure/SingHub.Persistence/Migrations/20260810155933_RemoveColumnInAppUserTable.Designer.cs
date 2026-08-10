@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SingHub.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SingHub.Persistence.Context;
 namespace SingHub.Persistence.Migrations
 {
     [DbContext(typeof(SingHubContext))]
-    partial class SingHubContextModelSnapshot : ModelSnapshot
+    [Migration("20260810155933_RemoveColumnInAppUserTable")]
+    partial class RemoveColumnInAppUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

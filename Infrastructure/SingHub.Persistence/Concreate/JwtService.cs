@@ -32,7 +32,6 @@ public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptio
             new("UserName",user.UserName!),
             new("UserId",user.Id.ToString()!),
             new("FullName",string.Join(" ",user.Name,user.Surname)),
-            new("AvatarUrl",user.AvatarUrl!),
         };
 
         foreach (var role in roles)

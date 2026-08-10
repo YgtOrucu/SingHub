@@ -43,9 +43,13 @@ namespace SingHub.WebAPI.CustomMiddlewares
                 else
                 {
                     if (ex.InnerException != null)
-                        message = $"Internal Server Error: {ex.InnerException!.Message}";
-
-                    message = $"Internal Server Error: {ex.Message}";
+                    {
+                        message = $"Internal Server Error: {ex.InnerException.Message}";
+                    }
+                    else
+                    {
+                        message = $"Internal Server Error: {ex.Message}";
+                    }
                 }
 
                 context.Response.StatusCode = (int)statusCode;

@@ -1,11 +1,9 @@
-﻿namespace SingHub.Application.Bases;
-
-public class BaseDto
+﻿namespace SingHub.Dto.Base;
+public class BaseEntity
 {
     public int Id { get; set; }
 }
-
-public abstract class AuditableDto : BaseDto
+public abstract class AuditableEntity : BaseEntity
 {
     public DateTime CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }

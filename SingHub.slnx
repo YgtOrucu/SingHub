@@ -8,6 +8,8 @@
     <Project Path="Infrastructure/SingHub.Persistence/SingHub.Persistence.csproj" Id="636d099c-87f2-4f70-8916-b7d86734c8b6" />
   </Folder>
   <Folder Name="/Presantation/">
+    <Project Path="Presantation/SingHub.Dto/SingHub.Dto.csproj" Id="3b88bd56-ed31-431b-91ba-7ffc40ecf896" />
+    <Project Path="Presantation/SingHub.WebUI/SingHub.WebUI.csproj" Id="2ff99c5d-b278-46f2-9f88-579ad779f26b" />
     <Project Path="Presentation/SingHub.WebAPI/SingHub.WebAPI.csproj" Id="e31d8de1-9ec9-4bb6-9511-d8c40e836835" />
   </Folder>
 </Solution>
