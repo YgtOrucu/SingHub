@@ -15,6 +15,20 @@ namespace SingHub.Application.Features.Users.Endpoint
 
             users.MapPost("register", CreateUserAsync);
             users.MapPost("login", LoginUserAsync);
+            users.MapPost("forgotpassword", ForgotPasswordAsync);
+            users.MapPost("resetpassword", ResetPasswordAsync);
+        }
+
+        private static async Task<IResult> ResetPasswordAsync(IMediator mediator ,ResetPasswordCommand command)
+        {
+            var result = await mediator.Send(command);
+            return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        }
+
+        private static async Task<IResult> ForgotPasswordAsync(IMediator mediator , ForgotPasswordCommand command)
+        {
+            var result = await mediator.Send(command);
+            return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
         }
 
         private static async Task<IResult> CreateUserAsync(IMediator mediator, CreateUserCommand command)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ public static class ServiceRegistration
             opt.Password.RequireNonAlphanumeric = false;
         })
         .AddEntityFrameworkStores<SingHubContext>()
+        .AddDefaultTokenProviders()
         .AddErrorDescriber<TurkishIdentityError>();
 
 
