@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SignHub.Application.Bases;
+using SignHub.Application.Contract.Persistence;
 using SignHub.Application.Exceptions;
 using SignHub.Application.Features.Users.Queries;
 using SignHub.Application.Features.Users.Result;
@@ -8,7 +9,7 @@ using SignHub.Domain.Entities;
 
 namespace SignHub.Application.Features.Users.Handlers.ReadOperation;
 
-public class GetLoginQueryHandle(UserManager<AppUser> userManager)
+public class GetLoginQueryHandle(UserManager<AppUser> userManager, IJwtService jwtService)
     : IRequestHandler<GetLoginQuery, BaseResult<GetLoginQueryResult>>
 {
     public async Task<BaseResult<GetLoginQueryResult>> Handle(GetLoginQuery request, CancellationToken cancellationToken)
@@ -23,10 +24,8 @@ public class GetLoginQueryHandle(UserManager<AppUser> userManager)
         if (!result)
             return BaseResult<GetLoginQueryResult>.Failure("Email or Password is incorrect.Please check details");
 
-        return BaseResult<GetLoginQueryResult>.Success(new GetLoginQueryResult
-        {
-            Token = "Bu bilgi servis ile gelecek",
-            ExprationTime = DateTime.UtcNow.AddHours(3),
-        });
+        var response = await jwtService.GenerateTokenAsync(user.UserName!);
+
+        return BaseResult<GetLoginQueryResult>.Success(response);
     }
 }

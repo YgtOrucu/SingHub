@@ -42,7 +42,10 @@ namespace SignHub.WebAPI.CustomMiddlewares
                 }
                 else
                 {
-                    message = $"Internal Server Error: {ex.InnerException!.Message}";
+                    if (ex.InnerException != null)
+                        message = $"Internal Server Error: {ex.InnerException!.Message}";
+
+                    message = $"Internal Server Error: {ex.Message}";
                 }
 
                 context.Response.StatusCode = (int)statusCode;
