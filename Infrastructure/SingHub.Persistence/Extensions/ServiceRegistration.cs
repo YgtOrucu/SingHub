@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Options;
 using SingHub.Domain.Entities;
-using SingHub.Persistence.Concreate;
+using SingHub.Persistence.Concrete;
 using SingHub.Persistence.Context;
 using SingHub.Persistence.IdentityErrors;
 using SingHub.Persistence.Seeders;

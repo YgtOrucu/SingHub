@@ -40,18 +40,6 @@ namespace SingHub.WebAPI.CustomMiddlewares
                     message = exception.Message;
                     statusCode = exception.StatusCode;
                 }
-                else
-                {
-                    if (ex.InnerException != null)
-                    {
-                        message = $"Internal Server Error: {ex.InnerException.Message}";
-                    }
-                    else
-                    {
-                        message = $"Internal Server Error: {ex.Message}";
-                    }
-                }
-
                 context.Response.StatusCode = (int)statusCode;
                 var response = BaseResult<object>.Failure(message);
                 await context.Response.WriteAsJsonAsync(response);

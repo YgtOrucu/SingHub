@@ -3,7 +3,7 @@ using SingHub.Application.Contract.Persistence;
 using SingHub.Persistence.Context;
 using System.Linq.Expressions;
 
-namespace SingHub.Persistence.Concreate;
+namespace SingHub.Persistence.Concrete;
 
 public class GenericRepository<T>(SingHubContext context) : IGenericRepository<T> where T : class
 {

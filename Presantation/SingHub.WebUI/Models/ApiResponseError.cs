@@ -1,6 +1,6 @@
 ﻿namespace SingHub.WebUI.Models
 {
-    public class ApiResponseError<T>
+    public class ApiResponseError
     {
         public List<ApiErrorDetail>? Errors { get; set; }
     }

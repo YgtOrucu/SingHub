@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SingHub.Persistence.Concreate;
+namespace SingHub.Persistence.Concrete;
 
 public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptions> options) : IJwtService
 {
@@ -29,14 +29,15 @@ public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptio
 
         List<Claim> claims = new()
         {
-            new("UserName",user.UserName!),
-            new("UserId",user.Id.ToString()!),
+            new(JwtRegisteredClaimNames.UniqueName,user.UserName!),
+            new(JwtRegisteredClaimNames.Sub,user.Id.ToString()!),
+            new(JwtRegisteredClaimNames.Email, user.Email!),
             new("FullName",string.Join(" ",user.Name,user.Surname)),
         };
 
         foreach (var role in roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new("role", role));
         }
 
 
@@ -53,7 +54,7 @@ public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptio
         GetLoginQueryResult reponse = new GetLoginQueryResult()
         {
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-            ExprationTime = expiration
+            ExpirationTime = expiration
         };
 
         return reponse;

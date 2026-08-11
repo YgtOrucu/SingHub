@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SingHub.Application.Bases;
+using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Features.Users.Commands;
 using SingHub.Domain.Entities;
 
 namespace SingHub.Application.Features.Users.Handlers.WriteOperation;
 
-public class ResetPasswordCommandHandle(UserManager<AppUser> userManager)
+public class ResetPasswordCommandHandle(UserManager<AppUser> userManager, IMailService mailService)
 : IRequestHandler<ResetPasswordCommand, BaseResult<string>>
 {
     public async Task<BaseResult<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
@@ -29,12 +30,12 @@ public class ResetPasswordCommandHandle(UserManager<AppUser> userManager)
         {
             return BaseResult<string>.Failure("Kod geçersiz veya süresi dolmuş. Lütfen tekrar kod isteyin.");
         }
-  
+
         var token = await userManager.GeneratePasswordResetTokenAsync(user);
         var resetResult = await userManager.ResetPasswordAsync(user, token, request.NewPassword);
 
         if (!resetResult.Succeeded)
-        { 
+        {
             return BaseResult<string>.Failure(resetResult.Errors);
         }
 
@@ -43,6 +44,12 @@ public class ResetPasswordCommandHandle(UserManager<AppUser> userManager)
 
         await userManager.UpdateSecurityStampAsync(user);
         await userManager.UpdateAsync(user);
+
+        _ = Task.Run(async () =>
+        {
+            await mailService.SuccessPasswordChangedMessageAsync(user.Name!, user.Surname, user.Email!);
+        });
+
 
         return BaseResult<string>.Success("Şifreniz başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.");
     }

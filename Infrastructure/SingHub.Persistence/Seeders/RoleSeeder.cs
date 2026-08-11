@@ -11,7 +11,7 @@ public static class RoleSeeder
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
-        string[] roles = ["Free", "Basic", "Gold", "Premium", "Elit"];
+        string[] roles = ["Standart", "Basic", "Gold", "Premium", "Elit"];
 
         foreach (var roleName in roles)
         {
@@ -21,41 +21,40 @@ public static class RoleSeeder
             }
         }
 
-        //string adminEmail = "memo@gmail.com";
-        //string adminUserName = "admin";
+        string adminEmail = "orucuyigit@gmail.com";
+        string adminUserName = "admin";
 
-        //var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-        //if (adminUser == null)
-        //{
-        //    var newAdmin = new AppUser
-        //    {
-        //        UserName = adminUserName,
-        //        Email = adminEmail,
-        //        Name = "System",
-        //        Surname = "Admin",
-        //        EmailConfirmed = true,
-        //        AvatarUrl = "https://default-avatar-url.com/admin.png"
-        //    };
+        if (adminUser == null)
+        {
+            var newAdmin = new AppUser
+            {
+                UserName = adminUserName,
+                Email = adminEmail,
+                Name = "System",
+                Surname = "Admin",
+                EmailConfirmed = true,
+            };
 
-        //    var createResult = await userManager.CreateAsync(newAdmin, "Admin123!*");
+            var createResult = await userManager.CreateAsync(newAdmin, "Admin123!*");
 
-        //    if (createResult.Succeeded)
-        //    {
-        //        await userManager.AddToRoleAsync(newAdmin, "Basic");
-        //    }
-        //    else
-        //    {
-        //        var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
-        //        throw new Exception($"Admin kullanıcısı oluşturulamadı: {errors}");
-        //    }
-        //}
-        //else
-        //{
-        //    if (!await userManager.IsInRoleAsync(adminUser, "Basic"))
-        //    {
-        //        await userManager.AddToRoleAsync(adminUser, "Basic");
-        //    }
-        //}
+            if (createResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(newAdmin, "Standart");
+            }
+            else
+            {
+                var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+                throw new Exception($"Admin kullanıcısı oluşturulamadı: {errors}");
+            }
+        }
+        else
+        {
+            if (!await userManager.IsInRoleAsync(adminUser, "Standart"))
+            {
+                await userManager.AddToRoleAsync(adminUser, "Standart");
+            }
+        }
     }
 }
