@@ -1,0 +1,276 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-header">
+    <div>
+        <h1>Genel Bakış</h1>
+        <p>SingHub platformunun canlı istatistiklerini buradan takip edin.</p>
+    </div>
+    <button class="btn-primary" type="button" id="reportBtn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round" /></svg>
+        Yeni Rapor Oluştur
+    </button>
+</div>
+
+<!-- ===== Stat Cards ===== -->
+<div class="stat-grid">
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon purple-blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3.2" stroke="#fff" stroke-width="1.8" /><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" /></svg>
+            </div>
+            <span class="stat-trend up">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16l6-6 4 4 6-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                +12.4%
+            </span>
+        </div>
+        <div>
+            <div class="stat-value" data-count="24380">0</div>
+            <div class="stat-label">Toplam Kullanıcı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.8" /></svg>
+            </div>
+            <span class="stat-trend up">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16l6-6 4 4 6-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                +8.1%
+            </span>
+        </div>
+        <div>
+            <div class="stat-value" data-count="118940">0</div>
+            <div class="stat-label">Toplam Şarkı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon amber">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <span class="stat-trend up">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16l6-6 4 4 6-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                +21.7%
+            </span>
+        </div>
+        <div>
+            <div class="stat-value" data-count="3120500">0</div>
+            <div class="stat-label">Aylık Dinlenme</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" /><path d="M9.5 12.5l1.8 1.8 3.7-4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <span class="stat-trend down">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8l6 6 4-4 6 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                -3.2%
+            </span>
+        </div>
+        <div>
+            <div class="stat-value">₺<span data-count="184250">0</span></div>
+            <div class="stat-label">Aylık Gelir</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Chart + Activity ===== -->
+<div class="dash-grid">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h2>Haftalık Dinlenme Trafiği</h2>
+                <div class="sub">Son 7 günün akış istatistikleri</div>
+            </div>
+            <div class="chip-tabs">
+                <button class="chip-tab active" data-range="7">7G</button>
+                <button class="chip-tab" data-range="30">30G</button>
+                <button class="chip-tab" data-range="90">90G</button>
+            </div>
+        </div>
+        <canvas id="streamChart"></canvas>
+        <div class="legend-row">
+            <div class="legend-item"><span class="legend-dot" style="background:#7c3aed;"></span>Dinlenme</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span>Yeni Kayıt</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <h2>Son Aktiviteler</h2>
+                <div class="sub">Platformdaki anlık hareketler</div>
+            </div>
+        </div>
+        <div class="activity-list" id="activityList">
+            <div class="activity-item">
+                <div class="activity-avatar">EK</div>
+                <div>
+                    <div class="activity-text"><strong>Elif Kaya</strong> yeni bir çalma listesi oluşturdu</div>
+                    <div class="activity-time">2 dakika önce</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-avatar">MT</div>
+                <div>
+                    <div class="activity-text"><strong>Mert Taş</strong> "Gece Yarısı" şarkısını yükledi</div>
+                    <div class="activity-time">14 dakika önce</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-avatar">SD</div>
+                <div>
+                    <div class="activity-text"><strong>Selin Demir</strong> premium üyeliğe geçti</div>
+                    <div class="activity-time">42 dakika önce</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-avatar">BK</div>
+                <div>
+                    <div class="activity-text"><strong>Burak Koç</strong> bir şikayet bildirdi</div>
+                    <div class="activity-time">1 saat önce</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-avatar">NÇ</div>
+                <div>
+                    <div class="activity-text"><strong>Nil Çelik</strong> yeni albüm yayınladı</div>
+                    <div class="activity-time">3 saat önce</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Users Table ===== -->
+<div class="card table-card">
+    <div class="card-header">
+        <div>
+            <h2>Son Kayıt Olan Kullanıcılar</h2>
+            <div class="sub">Platforma yeni katılan kullanıcıların listesi</div>
+        </div>
+        <button class="btn-primary" type="button" id="viewAllBtn">Tümünü Gör</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Kullanıcı</th>
+                <th>E-posta</th>
+                <th>Plan</th>
+                <th>Kayıt Tarihi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="av">EK</div>
+                        <div>
+                            <div class="name">Elif Kaya</div>
+                        </div>
+                    </div>
+                </td>
+                <td>elif.kaya@mail.com</td>
+                <td>Premium</td>
+                <td>09 Ağu 2026</td>
+                <td><span class="status-pill active">Aktif</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        <button type="button" title="Sil" class="danger delete-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="av">MT</div>
+                        <div>
+                            <div class="name">Mert Taş</div>
+                        </div>
+                    </div>
+                </td>
+                <td>mert.tas@mail.com</td>
+                <td>Free</td>
+                <td>08 Ağu 2026</td>
+                <td><span class="status-pill pending">Beklemede</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        <button type="button" title="Sil" class="danger delete-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="av">SD</div>
+                        <div>
+                            <div class="name">Selin Demir</div>
+                        </div>
+                    </div>
+                </td>
+                <td>selin.demir@mail.com</td>
+                <td>Premium</td>
+                <td>07 Ağu 2026</td>
+                <td><span class="status-pill active">Aktif</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        <button type="button" title="Sil" class="danger delete-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="av">BK</div>
+                        <div>
+                            <div class="name">Burak Koç</div>
+                        </div>
+                    </div>
+                </td>
+                <td>burak.koc@mail.com</td>
+                <td>Free</td>
+                <td>05 Ağu 2026</td>
+                <td><span class="status-pill banned">Askıya Alındı</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        <button type="button" title="Sil" class="danger delete-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="av">NÇ</div>
+                        <div>
+                            <div class="name">Nil Çelik</div>
+                        </div>
+                    </div>
+                </td>
+                <td>nil.celik@mail.com</td>
+                <td>Premium</td>
+                <td>03 Ağu 2026</td>
+                <td><span class="status-pill active">Aktif</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        <button type="button" title="Sil" class="danger delete-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

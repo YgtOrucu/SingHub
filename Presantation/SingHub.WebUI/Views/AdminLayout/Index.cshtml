@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel | SingHub";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+@await Component.InvokeAsync("AdminHead")
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="layout">
+        @await Component.InvokeAsync("AdminSidebar")
+
+      
+        <div class="main">
+            @await Component.InvokeAsync("AdminNavbar")
+
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </div>
+        <div>
+            <div class="msg" id="toastMsg">İşlem başarılı</div>
+            <div class="sub" id="toastSub">Değişiklikler kaydedildi.</div>
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("AdminScript")
+</body>
+</html>
