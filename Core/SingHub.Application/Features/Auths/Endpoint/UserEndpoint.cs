@@ -2,23 +2,23 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using SingHub.Application.Features.Users.Commands;
-using SingHub.Application.Features.Users.Queries;
+using SingHub.Application.Features.Auths.Commands;
+using SingHub.Application.Features.Auths.Queries;
 using System.Security.Claims;
 
-namespace SingHub.Application.Features.Users.Endpoint
+namespace SingHub.Application.Features.Auths.Endpoint
 {
     public static class UserEndpoint
     {
-        public static void RegisterUsersEndpoint(this IEndpointRouteBuilder app)
+        public static void RegisterAuthsEndpoint(this IEndpointRouteBuilder app)
         {
-            var users = app.MapGroup("/users").WithTags("Users");
+            var auths = app.MapGroup("/auths").WithTags("Auths");
 
-            users.MapPost("register", CreateUserAsync);
-            users.MapPost("login", LoginUserAsync);
-            users.MapPost("forgotpassword", ForgotPasswordAsync);
-            users.MapPost("resetpassword", ResetPasswordAsync);
-            users.MapPost("logout", LogoutAsync);
+            auths.MapPost("register", CreateUserAsync);
+            auths.MapPost("login", LoginUserAsync);
+            auths.MapPost("forgotpassword", ForgotPasswordAsync);
+            auths.MapPost("resetpassword", ResetPasswordAsync);
+            auths.MapPost("logout", LogoutAsync);
         }
 
         private static async Task<IResult> LogoutAsync(IMediator mediator, ClaimsPrincipal user)

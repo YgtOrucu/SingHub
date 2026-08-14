@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using SingHub.Application.Bases;
 using SingHub.Application.Contract.Persistence;
-using SingHub.Application.Features.Users.Queries;
-using SingHub.Application.Features.Users.Result;
+using SingHub.Application.Features.Auths.Queries;
+using SingHub.Application.Features.Auths.Result;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Application.Features.Users.Handlers.ReadOperation;
+namespace SingHub.Application.Features.Auths.Handlers.ReadOperation;
 
 public class GetLoginQueryHandle(UserManager<AppUser> userManager, IJwtService jwtService)
     : IRequestHandler<GetLoginQuery, BaseResult<GetLoginQueryResult>>

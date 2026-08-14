@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SingHub.Application.Bases;
 
-namespace SingHub.Application.Features.Users.Commands;
+namespace SingHub.Application.Features.Auths.Commands;
 
 public class CreateUserCommand : IRequest<BaseResult<object>>
 {

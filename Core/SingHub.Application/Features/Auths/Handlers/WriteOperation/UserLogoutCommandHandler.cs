@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SingHub.Application.Contract.Persistence;
-using SingHub.Application.Features.Users.Commands;
+using SingHub.Application.Features.Auths.Commands;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Application.Features.Users.Handlers.WriteOperation;
+namespace SingHub.Application.Features.Auths.Handlers.WriteOperation;
 
 public class UserLogoutCommandHandler(UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
     : IRequestHandler<UserLogoutCommand, string>

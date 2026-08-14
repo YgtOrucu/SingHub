@@ -1,4 +1,4 @@
-﻿namespace SingHub.Application.Features.Users.Result;
+﻿namespace SingHub.Application.Features.Auths.Result;
 public class GetLoginQueryResult
 {
     public string Token { get; set; }

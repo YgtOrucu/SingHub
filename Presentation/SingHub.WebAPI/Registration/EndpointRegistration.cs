@@ -1,4 +1,5 @@
-﻿using SingHub.Application.Features.Users.Endpoint;
+﻿using SingHub.Application.Features.Auths.Endpoint;
+using SingHub.Application.Features.ForAdminFeatures.Users.Endpoint;
 
 namespace SingHub.WebAPI.Registration
 {
@@ -6,6 +7,7 @@ namespace SingHub.WebAPI.Registration
     {
         public static void RegisterEndpoints(this IEndpointRouteBuilder app)
         {
+            app.RegisterAuthsEndpoint();
             app.RegisterUsersEndpoint();
         }
     }

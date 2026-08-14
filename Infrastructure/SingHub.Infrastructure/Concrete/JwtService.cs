@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Exceptions;
-using SingHub.Application.Features.Users.Result;
+using SingHub.Application.Features.Auths.Result;
 using SingHub.Infrastructure.Options;
 using SingHub.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;

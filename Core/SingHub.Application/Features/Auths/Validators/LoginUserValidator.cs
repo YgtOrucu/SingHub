@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using SingHub.Application.Features.Users.Queries;
+using SingHub.Application.Features.Auths.Queries;
 
-namespace SingHub.Application.Features.Users.Validators;
+namespace SingHub.Application.Features.Auths.Validators;
 
 public class LoginUserValidator : AbstractValidator<GetLoginQuery>
 {

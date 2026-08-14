@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using SingHub.Application.Features.Users.Commands;
+using SingHub.Application.Features.Auths.Commands;
 
-namespace SingHub.Application.Features.Users.Validators;
+namespace SingHub.Application.Features.Auths.Validators;
 public class CreateUserValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserValidator()

@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using SingHub.Application.Bases;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Exceptions;
-using SingHub.Application.Features.Users.Commands;
+using SingHub.Application.Features.Auths.Commands;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Application.Features.Users.Handlers.WriteOperation;
+namespace SingHub.Application.Features.Auths.Handlers.WriteOperation;
 
 public class CreateUserCommandHandle(UserManager<AppUser> userManager, IMapper mapper, IMailService mailService)
     : IRequestHandler<CreateUserCommand, BaseResult<object>>

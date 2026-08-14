@@ -22,7 +22,7 @@ namespace SingHub.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            var response = await _client.PostAsJsonAsync("users/register", dto);
+            var response = await _client.PostAsJsonAsync("auths/register", dto);
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Login");
 
@@ -41,7 +41,7 @@ namespace SingHub.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var response = await _client.PostAsJsonAsync("users/login", dto);
+            var response = await _client.PostAsJsonAsync("auths/login", dto);
             if (!response.IsSuccessStatusCode)
             {
                 await GetErrors(response);
@@ -97,7 +97,7 @@ namespace SingHub.WebUI.Controllers
         public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
         {
             TempData["Email"] = dto.Email;
-            var response = await _client.PostAsJsonAsync("users/forgotpassword", dto);
+            var response = await _client.PostAsJsonAsync("auths/forgotpassword", dto);
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("ResetPassword");
 
@@ -118,7 +118,7 @@ namespace SingHub.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
         {
-            var response = await _client.PostAsJsonAsync("users/resetpassword", dto);
+            var response = await _client.PostAsJsonAsync("auths/resetpassword", dto);
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Login");
 
@@ -152,7 +152,7 @@ namespace SingHub.WebUI.Controllers
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            await _client.PostAsync("users/logout", null);
+            await _client.PostAsync("auths/logout", null);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Login");
