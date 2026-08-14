@@ -4,13 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Exceptions;
 using SingHub.Application.Features.Users.Result;
-using SingHub.Application.Options;
+using SingHub.Infrastructure.Options;
 using SingHub.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SingHub.Persistence.Concrete;
+namespace SingHub.Infrastructure.Concrete;
 
 public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptions> options) : IJwtService
 {

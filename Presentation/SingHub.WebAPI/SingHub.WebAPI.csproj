@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\SingHub.Application\SingHub.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\SingHub.Infrastructure\SingHub.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\SingHub.Persistence\SingHub.Persistence.csproj" />
   </ItemGroup>
 

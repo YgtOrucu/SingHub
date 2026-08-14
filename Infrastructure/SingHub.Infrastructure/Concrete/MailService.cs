@@ -3,9 +3,9 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using SingHub.Application.Contract.Persistence;
-using SingHub.Application.MailSetting;
+using SingHub.Infrastructure.MailSetting;
 
-namespace SingHub.Persistence.Concrete;
+namespace SingHub.Infrastructure.Concrete;
 
 public class MailService(IOptions<MailSettings> options) : IMailService
 {
@@ -124,7 +124,6 @@ public class MailService(IOptions<MailSettings> options) : IMailService
 
     #endregion
 
-
     #region SendMailMailProcess
     public async Task SendMail(string Name, string Surname, string toEmail)
     {
@@ -238,7 +237,6 @@ public class MailService(IOptions<MailSettings> options) : IMailService
 
     #endregion
 
-
     #region ResetPasswordMailProcess
     public async Task SuccessPasswordChangedMessageAsync(string Name, string Surname, string Email)
     {
@@ -301,5 +299,4 @@ public class MailService(IOptions<MailSettings> options) : IMailService
     }
 
     #endregion
-
 }

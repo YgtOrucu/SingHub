@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Tls;
 using SingHub.Dto.AuthDtos;
 using SingHub.WebUI.Models;
 using System.IdentityModel.Tokens.Jwt;

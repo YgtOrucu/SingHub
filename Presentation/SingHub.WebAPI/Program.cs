@@ -1,5 +1,6 @@
 using Scalar.AspNetCore;
 using SingHub.Application.Extensions;
+using SingHub.Infrastructure.Extensions;
 using SingHub.Persistence.Extensions;
 using SingHub.WebAPI.CustomMiddlewares;
 using SingHub.WebAPI.Registration;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AppApplicationSetting(builder.Configuration);
 builder.Services.AppPersistenceSetting(builder.Configuration);
+builder.Services.AppInfrastructureSetting(builder.Configuration);
 builder.Services.AddOpenApi();
 
 var app = builder.Build();

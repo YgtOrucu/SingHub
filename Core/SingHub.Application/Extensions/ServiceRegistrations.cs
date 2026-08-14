@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SingHub.Application.Behavior;
-using SingHub.Application.MailSetting;
-using SingHub.Application.Options;
 using System.Reflection;
 
 namespace SingHub.Application.Extensions;
@@ -20,8 +18,5 @@ public static class ServiceRegistrations
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-        services.Configure<JwtTokenOptions>(configuration.GetSection(nameof(JwtTokenOptions)));
-        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
     }
 }

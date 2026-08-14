@@ -1,4 +1,4 @@
-﻿namespace SingHub.Application.Options;
+﻿namespace SingHub.Infrastructure.Options;
 
 public class JwtTokenOptions
 {

@@ -1,4 +1,5 @@
-﻿namespace SingHub.Application.MailSetting;
+﻿namespace SingHub.Infrastructure.MailSetting;
+
 public class MailSettings
 {
     public string Server { get; set; }
