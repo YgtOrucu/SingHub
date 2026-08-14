@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SingHub.Application.Contract.Persistence;
+using SingHub.Domain.Entities;
+using SingHub.Infrastructure.Concrete;
 using SingHub.Infrastructure.MailSetting;
 using SingHub.Infrastructure.Options;
-using SingHub.Infrastructure.Concrete;
+using System.Security.Claims;
 using System.Text;
 
 namespace SingHub.Infrastructure.Extensions;
@@ -34,6 +37,30 @@ public static class ServiceRegistration
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwttokenpotions.Key)),
                 ClockSkew = TimeSpan.Zero,
             };
+
+
+            opt.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = async context =>
+                {
+                    var userRepository = context.HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
+                    var userId = context.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    var tokenSecurityStamp = context.Principal?.FindFirst("security_stamp")?.Value;
+
+                    if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(tokenSecurityStamp))
+                    {
+                        context.Fail("Gerekli yetkilendirme bilgileri bulunamadı.");
+                        return;
+                    }
+                    var user = await userRepository.FindByIdAsync(userId);
+                    if (user == null || user.SecurityStamp != tokenSecurityStamp)
+                    {
+                        context.Fail("Bu token ile oturum sonlandırılmıştır.");
+                    }
+                }
+            };
+
+
         });
 
         services.Configure<JwtTokenOptions>(builder.GetSection(nameof(JwtTokenOptions)));

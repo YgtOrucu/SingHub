@@ -82,7 +82,7 @@ namespace SingHub.WebUI.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
             }
 
-            return RedirectToAction("HomePage", "Index", new { Area = "Users" });
+            return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
         }
         #endregion
 
@@ -139,6 +139,25 @@ namespace SingHub.WebUI.Controllers
                 }
             }
         }
+        #endregion
+
+        #region Logout
+
+        public async Task<IActionResult> Logout()
+        {
+            var token = User.FindFirst("AccessToken")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                _client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            await _client.PostAsync("users/logout", null);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Login");
+        }
+
         #endregion
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using SingHub.Application.Features.Users.Commands;
 using SingHub.Application.Features.Users.Queries;
+using System.Security.Claims;
 
 namespace SingHub.Application.Features.Users.Endpoint
 {
@@ -17,6 +18,19 @@ namespace SingHub.Application.Features.Users.Endpoint
             users.MapPost("login", LoginUserAsync);
             users.MapPost("forgotpassword", ForgotPasswordAsync);
             users.MapPost("resetpassword", ResetPasswordAsync);
+            users.MapPost("logout", LogoutAsync);
+        }
+
+        private static async Task<IResult> LogoutAsync(IMediator mediator, ClaimsPrincipal user)
+        {
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return Results.Unauthorized();
+
+            var result = await mediator.Send(new UserLogoutCommand { UserId = userId });
+
+            return Results.Ok(new { Message = result });
         }
 
         private static async Task<IResult> ResetPasswordAsync(IMediator mediator ,ResetPasswordCommand command)
