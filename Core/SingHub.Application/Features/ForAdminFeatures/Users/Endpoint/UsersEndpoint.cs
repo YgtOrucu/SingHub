@@ -12,7 +12,7 @@ public static class UsersEndpoint
     {
         var users = builder.MapGroup("/users").WithTags("Users");
 
-        users.MapGet("GetAllUsers", GetAllUsersAsync);
+        users.MapGet("GetAllUsers", GetAllUsersAsync).RequireAuthorization();
     }
 
     private static async Task<IResult> GetAllUsersAsync(IMediator mediator)

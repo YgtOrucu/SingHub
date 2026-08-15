@@ -1,0 +1,50 @@
+.row-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+    .row-actions .edit-btn,
+    .row-actions .delete-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .row-actions .edit-btn {
+        background: rgba(124, 58, 237, 0.18);
+        border: 1px solid rgba(167, 139, 250, 0.4);
+        color: #c084fc;
+    }
+
+        .row-actions .edit-btn:hover {
+            background: #7c3aed;
+            border-color: #a78bfa;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+            transform: translateY(-1px);
+        }
+
+    .row-actions .delete-btn {
+        background: rgba(248, 113, 113, 0.18);
+        border: 1px solid rgba(248, 113, 113, 0.4);
+        color: #f87171; 
+    }
+
+        .row-actions .delete-btn:hover {
+            background: #ef4444;
+            border-color: #fca5a5;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
+        }
+
+    .row-actions svg {
+        width: 16px;
+        height: 16px;
+    }

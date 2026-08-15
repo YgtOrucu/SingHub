@@ -28,7 +28,7 @@ namespace SingHub.Application.Features.Auths.Endpoint
             if (string.IsNullOrEmpty(userId))
                 return Results.Unauthorized();
 
-            var result = await mediator.Send(new UserLogoutCommand { UserId = userId });
+            var result = await mediator.Send(new LogoutCommand { UserId = userId });
 
             return Results.Ok(new { Message = result });
         }

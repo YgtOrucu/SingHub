@@ -1,0 +1,189 @@
+﻿@model List<GetListUsersDto>
+
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Kullanıcı Listesi</h1>
+        <p>SingHub platformuna kayıtlı tüm kullanıcıları ve yetkilerini buradan yönetin.</p>
+    </div>
+    <a href="/Admin/Users/CreateUser" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Yeni Kullanıcı Ekle
+    </a>
+</div>
+
+<!-- ===== Kullanıcı İstatistik Kartları ===== -->
+<div class="stat-grid">
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon purple-blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="8" r="3.2" stroke="#fff" stroke-width="1.8" />
+                    <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="stat-trend up">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 16l6-6 4 4 6-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Canlı
+            </span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Count : 0)</div>
+            <div class="stat-label">Toplam Kayıtlı Kullanıcı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M9.5 12.5l1.8 1.8 3.7-4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Aktif</span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Count(x => x.RoleName == "Admin" || x.RoleName == "Süper Admin") : 0)</div>
+            <div class="stat-label">Yönetici / Admin Sayısı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8" />
+                    <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.8" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Standart</span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Count(x => x.RoleName != "Admin" && x.RoleName != "Süper Admin") : 0)</div>
+            <div class="stat-label">Normal Kullanıcı Sayısı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon amber">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Sistem</span>
+        </div>
+        <div>
+            <div class="stat-value">Online</div>
+            <div class="stat-label">Veritabanı Durumu</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ModelState Hata Mesajları ===== -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="card error-card">
+        <div class="error-card-title">Bir Hata Oluştu:</div>
+        <div asp-validation-summary="All" class="error-card-body"></div>
+    </div>
+}
+
+<!-- ===== Users Table Card ===== -->
+<div class="card table-card">
+    <div class="card-header">
+        <div>
+            <h2>Kullanıcı Hesapları</h2>
+            <div class="sub">Sistemdeki tüm kayıtlı kullanıcıların detaylı listesi</div>
+        </div>
+        <div class="search-box table-search-box">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
+                <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <input type="text" id="tableSearchInput" placeholder="Kullanıcı veya e-posta ara..." />
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Kullanıcı</th>
+                <th>Kullanıcı Adı</th>
+                <th>E-Posta</th>
+                <th>Rol / Yetki</th>
+                <th>Durum</th>
+                <th class="table-header-right">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody id="userListBody">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var user in Model)
+                {
+                    string initials = "";
+                    if (!string.IsNullOrEmpty(user.Name)) initials += user.Name[0];
+                    if (!string.IsNullOrEmpty(user.Surname)) initials += user.Surname[0];
+                    if (string.IsNullOrEmpty(initials) && !string.IsNullOrEmpty(user.UserName)) initials = user.UserName.Substring(0, Math.Min(2, user.UserName.Length));
+                    initials = initials.ToUpper();
+
+                    string roleBadgeClass = (user.RoleName == "Admin" || user.RoleName == "Süper Admin") ? "pending" : "active";
+
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="av">@initials</div>
+                                <div>
+                                    <div class="name">@user.Name @user.Surname</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="username-cell">@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <span class="status-pill @roleBadgeClass">
+                                @(string.IsNullOrEmpty(user.RoleName) ? "User" : user.RoleName)
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-pill active">Aktif</span>
+                        </td>
+                        <td>
+                            <div class="row-actions">
+                                <a href="/Admin/Users/UpdateUser/@user.Id" class="edit-btn" title="Düzenle">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <a href="/Admin/Users/DeleteUser/@user.Id" class="delete-btn" title="Sil" onclick="return confirm('@user.Name @user.Surname kullanıcısını silmek istediğinize emin misiniz?');">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="table-empty-cell">
+                        Henüz kayıtlı bir kullanıcı bulunamadı veya veriler yüklenemedi.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -127,20 +127,6 @@ namespace SingHub.WebUI.Controllers
         }
         #endregion
 
-        #region GetErrorsMethod
-        private async Task GetErrors(HttpResponseMessage response)
-        {
-            var result = await response.Content.ReadFromJsonAsync<ApiResponseError>();
-            if (result?.Errors != null)
-            {
-                foreach (var err in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, err.Message ?? "An error occurred.");
-                }
-            }
-        }
-        #endregion
-
         #region Logout
 
         public async Task<IActionResult> Logout()
@@ -156,6 +142,21 @@ namespace SingHub.WebUI.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Login");
+        }
+
+        #endregion
+
+        #region GetErrorsMethod
+        private async Task GetErrors(HttpResponseMessage response)
+        {
+            var result = await response.Content.ReadFromJsonAsync<ApiResponseError>();
+            if (result?.Errors != null)
+            {
+                foreach (var err in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, err.Message ?? "An error occurred.");
+                }
+            }
         }
 
         #endregion

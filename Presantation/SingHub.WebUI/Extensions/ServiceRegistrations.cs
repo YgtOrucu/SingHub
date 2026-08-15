@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using SingHub.WebUI.CustomMiddlewares;
 
 namespace SingHub.WebUI.Extensions
 {
@@ -6,6 +7,10 @@ namespace SingHub.WebUI.Extensions
     {
         public static void UIServiceRegister(this IServiceCollection services, IConfiguration builder)
         {
+            services.AddHttpContextAccessor();
+            services.AddTransient<AuthTokenHandler>();
+
+        
             services.AddHttpClient("SingHubAPI", opt =>
             {
                 var address = builder.GetSection("ApıAddress").Value;
@@ -13,7 +18,7 @@ namespace SingHub.WebUI.Extensions
                     throw new Exception("The ApıAddress could not be found");
 
                 opt.BaseAddress = new Uri(address);
-            });
+            }).AddHttpMessageHandler<AuthTokenHandler>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -32,8 +37,8 @@ namespace SingHub.WebUI.Extensions
             });
 
 
-            services.AddDistributedMemoryCache(); 
-            services.AddSession(options =>     
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
