@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Persistence.ConfigurationsSetting.SongConfiguration;
+namespace SingHub.Persistence.ConfigurationsSetting.ArtistConfiguration;
 
 public class ArtistConfig : IEntityTypeConfiguration<Artist>
 {

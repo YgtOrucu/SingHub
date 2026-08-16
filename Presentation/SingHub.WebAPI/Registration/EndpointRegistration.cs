@@ -1,4 +1,5 @@
 ﻿using SingHub.Application.Features.Auths.Endpoint;
+using SingHub.Application.Features.ForAdminFeatures.Genres.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Users.Endpoint;
 
 namespace SingHub.WebAPI.Registration
@@ -9,6 +10,7 @@ namespace SingHub.WebAPI.Registration
         {
             app.RegisterAuthsEndpoint();
             app.RegisterUsersEndpoint();
+            app.RegisterGenresEndpoint();
         }
     }
 }

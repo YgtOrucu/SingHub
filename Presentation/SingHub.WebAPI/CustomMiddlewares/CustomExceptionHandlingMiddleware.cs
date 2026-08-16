@@ -23,7 +23,7 @@ namespace SingHub.WebAPI.CustomMiddlewares
                     Errors = ex.Errors.Select(x => new Error()
                     {
                         Code = x.PropertyName,
-                        Message = x.ErrorMessage
+                        ErrorMessage = x.ErrorMessage
                     }).ToList()
                 };
                 await context.Response.WriteAsJsonAsync(response);

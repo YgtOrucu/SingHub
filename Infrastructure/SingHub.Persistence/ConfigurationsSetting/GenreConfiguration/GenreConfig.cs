@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Persistence.ConfigurationsSetting.SongConfiguration;
+namespace SingHub.Persistence.ConfigurationsSetting.GenreConfiguration;
 
 public class GenreConfig : IEntityTypeConfiguration<Genre>
 {

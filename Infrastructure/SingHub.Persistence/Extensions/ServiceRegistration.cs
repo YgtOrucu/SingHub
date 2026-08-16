@@ -8,6 +8,7 @@ using SingHub.Domain.Entities;
 using SingHub.Persistence.Concrete;
 using SingHub.Persistence.Context;
 using SingHub.Persistence.IdentityErrors;
+using SingHub.Persistence.Interceptors;
 using SingHub.Persistence.Seeders;
 
 namespace SingHub.Persistence.Extensions;
@@ -16,11 +17,14 @@ public static class ServiceRegistration
 {
     public static void AppPersistenceSetting(this IServiceCollection services, IConfiguration builder)
     {
-        //services.AddScoped<AuditDbContextInterceptors>();
+        services.AddScoped<AuditDbContextInterceptors>();
 
         services.AddDbContext<SingHubContext>((serviceProvider, options) =>
         {
             options.UseSqlServer(builder.GetConnectionString("DefaultConnection"));
+            var interceptor = serviceProvider.GetRequiredService<AuditDbContextInterceptors>();
+            options.AddInterceptors(interceptor);
+            //options.UseLazyLoadingProxies();
         });
 
         services.AddIdentity<AppUser, AppRole>(opt =>

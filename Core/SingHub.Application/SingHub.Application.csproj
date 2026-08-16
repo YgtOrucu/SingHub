@@ -25,6 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\ForAdminFeatures\Genres\Queries\" />
+    <Folder Include="Features\ForAdminFeatures\Genres\Result\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Endpoint\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Handlers\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Mapping\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Validators\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Result\" />
+    <Folder Include="Features\ForAdminFeatures\Songs\Queries\" />
     <Folder Include="Features\ForAdminFeatures\Users\Mapping\" />
     <Folder Include="Features\ForAdminFeatures\Users\Validators\" />
   </ItemGroup>

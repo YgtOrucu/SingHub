@@ -6,7 +6,6 @@ namespace SingHub.Persistence.Context;
 
 public class SingHubContext(DbContextOptions<SingHubContext> dbContext) : IdentityDbContext<AppUser, AppRole, Guid>(dbContext)
 {
-
     public DbSet<Album> Albums  { get; set; }
     public DbSet<Artist> Artists  { get; set; }
     public DbSet<Genre> Genres  { get; set; }
