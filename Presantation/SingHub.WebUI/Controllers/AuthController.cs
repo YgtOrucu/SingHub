@@ -80,9 +80,15 @@ namespace SingHub.WebUI.Controllers
                 };
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
-            }
 
-            return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
+                var userRole = claims.FirstOrDefault(x => x.Type == ClaimTypes.Role || x.Type == "role")?.Value;
+
+                if (userRole == "Admin")
+                    return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
+
+                return RedirectToAction("Index", "Dashboard", new { Area = "Users" });
+            }
+            return View(dto);
         }
         #endregion
 
