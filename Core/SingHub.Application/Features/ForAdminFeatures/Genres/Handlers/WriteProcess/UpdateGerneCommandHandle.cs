@@ -6,7 +6,7 @@ using SingHub.Application.Exceptions;
 using SingHub.Application.Features.ForAdminFeatures.Genres.Commands;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Application.Features.ForAdminFeatures.Genres.Handlers.WriteOperations;
+namespace SingHub.Application.Features.ForAdminFeatures.Genres.Handlers.WriteProcess;
 
 public class UpdateGerneCommandHandle(IGenericRepository<Genre> repository, IMapper mapper, IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateGenreCommand, BaseResult<object>>

@@ -27,5 +27,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapGroup("/api").RegisterEndpoints();
+app.MapGroup("/api").RequireAuthorization().RegisterEndpoints();
 app.Run();

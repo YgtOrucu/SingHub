@@ -14,11 +14,11 @@ namespace SingHub.Application.Features.Auths.Endpoint
         {
             var auths = app.MapGroup("/auths").WithTags("Auths");
 
-            auths.MapPost("register", CreateUserAsync);
-            auths.MapPost("login", LoginUserAsync);
-            auths.MapPost("forgotpassword", ForgotPasswordAsync);
-            auths.MapPost("resetpassword", ResetPasswordAsync);
-            auths.MapPost("logout", LogoutAsync);
+            auths.MapPost("register", CreateUserAsync).AllowAnonymous();
+            auths.MapPost("login", LoginUserAsync).AllowAnonymous();
+            auths.MapPost("forgotpassword", ForgotPasswordAsync).AllowAnonymous();
+            auths.MapPost("resetpassword", ResetPasswordAsync).AllowAnonymous();
+            auths.MapPost("logout", LogoutAsync).AllowAnonymous();
         }
 
         private static async Task<IResult> LogoutAsync(IMediator mediator, ClaimsPrincipal user)

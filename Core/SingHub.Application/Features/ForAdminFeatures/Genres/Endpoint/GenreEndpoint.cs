@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using SingHub.Application.Features.ForAdminFeatures.Genres.Commands;
+using SingHub.Application.Features.ForAdminFeatures.Genres.Queries;
 
 namespace SingHub.Application.Features.ForAdminFeatures.Genres.Endpoint;
 
@@ -14,8 +15,8 @@ public static class GenreEndpoint
 
         Genre.MapPost(string.Empty, CreateGenresAsync);
         Genre.MapPut(string.Empty, UpdateGenresAsync);
-        //Genre.MapGet(string.Empty, GetGenresAsync);
-        //Genre.MapGet("{id}", GetGenresByIdAsync);
+        Genre.MapGet(string.Empty, GetGenresAsync);
+        Genre.MapGet("{id}", GetGenresByIdAsync);
         Genre.MapDelete("{id}", RemoveGenresAsync);
     }
 
@@ -31,17 +32,17 @@ public static class GenreEndpoint
         return response != null ? Results.Ok(response) : Results.BadRequest(response);
     }
 
-    //private static async Task<IResult> GetGenresAsync(IMediator mediator)
-    //{
-    //    var response = await mediator.Send(new GetGenresQuery());
-    //    return response != null ? Results.Ok(response) : Results.BadRequest(response);
-    //}
+    private static async Task<IResult> GetGenresAsync(IMediator mediator)
+    {
+        var response = await mediator.Send(new GetGenreQuery());
+        return response != null ? Results.Ok(response) : Results.BadRequest(response);
+    }
 
-    //private static async Task<IResult> GetGenresByIdAsync(int id, IMediator mediator)
-    //{
-    //    var response = await mediator.Send(new GetGenresByIdQuery(id));
-    //    return response != null ? Results.Ok(response) : Results.BadRequest(response);
-    //}
+    private static async Task<IResult> GetGenresByIdAsync(int id, IMediator mediator)
+    {
+        var response = await mediator.Send(new GetGenreByIdQuery(id));
+        return response != null ? Results.Ok(response) : Results.BadRequest(response);
+    }
 
     private static async Task<IResult> RemoveGenresAsync(int id, IMediator mediator)
     {

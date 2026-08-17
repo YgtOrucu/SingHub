@@ -1,0 +1,56 @@
+﻿@model CreateGenresDto
+
+@{
+    ViewData["Title"] = "Yeni Tür Ekle | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Yeni Müzik Türü Oluştur</h1>
+        <p>SingHub müzik kütüphanesine yeni bir kategori veya müzik türü ekleyin.</p>
+    </div>
+    <a href="/Admin/Genres/Index" class="btn-secondary">
+        ← Listeye Dön
+    </a>
+</div>
+
+<div class="form-container">
+    <div class="card form-card">
+        <form asp-action="CreateGenres" method="post" autocomplete="off">
+            <div class="form-group">
+                <label class="form-label">Tür Adı <span class="required">*</span></label>
+                <input type="text" asp-for="Name" class="form-control" placeholder="Örn: Rock, Pop, Jazz, Electronic" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Görsel URL (Image Link)</label>
+                <input type="text" asp-for="ImageUrl" id="genreImageUrl" class="form-control" placeholder="https://domain.com/images/genre-cover.jpg" />
+                <span class="input-hint">Müzik türü kartlarında görünecek kapak resminin URL adresini girin.</span>
+            </div>
+
+            <div class="image-preview-wrapper">
+                <label class="form-label">Görsel Önizleme</label>
+                <div class="preview-box" id="previewBox">
+                    <img id="imagePreview" src="" alt="Önizleme" style="display:none;" />
+                    <span id="previewPlaceholder">Geçerli bir Resim URL'si girildiğinde önizleme burada görünecektir.</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Açıklama</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Müzik türü hakkında kısa bir detay veya açıklama yazın..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin/Genres/Index" class="btn-cancel">İptal</a>
+                <button type="submit" class="btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Tür Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

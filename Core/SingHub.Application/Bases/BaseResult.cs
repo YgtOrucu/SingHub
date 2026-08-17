@@ -18,7 +18,7 @@ public class BaseResult<T>
 
     public static BaseResult<T> Success(T data)
     {
-        return new BaseResult<T> { Data = data };
+        return new BaseResult<T> { Data = data, Errors = null, Message = "Listing was successful.", Status = true };
     }
 
     public static BaseResult<T> Success(T data, string message, bool result)

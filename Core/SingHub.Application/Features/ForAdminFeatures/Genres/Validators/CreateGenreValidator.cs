@@ -14,9 +14,9 @@ public class CreateGenreValidator : AbstractValidator<CreateGenreCommand>
             .Matches(@"^[a-zA-ZğĞıİöÖüÜşŞçÇ\s]+$").WithMessage("Name must contain only letters.");
 
         RuleFor(x => x.Description)
-            .NotEmpty().WithMessage("Name is required.")
-            .MinimumLength(3).WithMessage("Name must be at least 3 characters.")
-            .MaximumLength(80).WithMessage("Name cannot exceed 80 characters.")
-            .Matches(@"^[a-zA-ZğĞıİöÖüÜşŞçÇ\s]+$").WithMessage("Name must contain only letters.");
+           .NotEmpty().WithMessage("Description is required.")
+           .MinimumLength(3).WithMessage("Description must be at least 3 characters.")
+           .MaximumLength(1000).WithMessage("Description cannot exceed 1000 characters.")
+           .Matches(@"^[a-zA-ZğĞıİöÖüÜşŞçÇ\s]+$").WithMessage("Description must contain only letters.");
     }
 }

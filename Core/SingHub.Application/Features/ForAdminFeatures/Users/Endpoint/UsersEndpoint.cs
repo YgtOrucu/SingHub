@@ -14,9 +14,9 @@ public static class UsersEndpoint
     {
         var users = builder.MapGroup("/users").WithTags("Users");
 
-        users.MapGet("GetAllUsers", GetAllUsersAsync).RequireAuthorization();
-        users.MapPut("UpdateUsersRoleName/{id}", UpdateUsersRoleAsync).RequireAuthorization();
-        users.MapGet("GetAllRoles", GetAllRolesAsync).RequireAuthorization();
+        users.MapGet("GetAllUsers", GetAllUsersAsync);
+        users.MapPut("UpdateUsersRoleName/{id}", UpdateUsersRoleAsync);
+        users.MapGet("GetAllRoles", GetAllRolesAsync);
     }
 
     private static async Task<IResult> GetAllRolesAsync(IMediator mediator)

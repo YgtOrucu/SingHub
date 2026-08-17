@@ -1,0 +1,143 @@
+﻿@model List<ResultGenresDto>
+
+@{
+    ViewData["Title"] = "Müzik Türleri | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Müzik Türleri</h1>
+        <p>SingHub platformundaki müzik türlerini, kapak görsellerini ve ilgili şarkı istatistiklerini yönetin.</p>
+    </div>
+    <a href="/Admin/Genres/CreateGenres" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Yeni Tür Ekle
+    </a>
+</div>
+
+<div class="stat-grid">
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon purple-blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18V5l12-2v13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="6" cy="18" r="3" stroke="#fff" stroke-width="1.8" />
+                    <circle cx="18" cy="16" r="3" stroke="#fff" stroke-width="1.8" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Aktif</span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Count : 0)</div>
+            <div class="stat-label">Toplam Kayıtlı Tür</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Kütüphane</span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Sum(x => x.SongByGenreCount) : 0)</div>
+            <div class="stat-label">Türlere Bağlı Şarkı</div>
+        </div>
+    </div>
+</div>
+
+<div class="card table-card">
+    <div class="card-header">
+        <div>
+            <h2>Müzik Türleri Listesi</h2>
+            <div class="sub">Sistemde aktif olan tüm kategori ve türler</div>
+        </div>
+        <div class="search-box table-search-box">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
+                <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <input type="text" id="genreSearchInput" placeholder="Tür veya açıklama ara..." />
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tür Görseli & Adı</th>
+                <th>Açıklama</th>
+                <th>Şarkı Sayısı</th>
+                <th class="table-header-right">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody id="genreListBody">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var genre in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="genre-cell">
+                                <div class="genre-thumb">
+                                    @if (!string.IsNullOrEmpty(genre.ImageUrl))
+                                    {
+                                        <img src="@genre.ImageUrl" alt="@genre.Name" onerror="this.src='/images/default-genre.png'; this.onerror=null;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="thumb-placeholder">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.8" />
+                                                <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8" />
+                                                <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.8" />
+                                            </svg>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="genre-name">@genre.Name</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="genre-desc" title="@genre.Description">
+                                @(string.IsNullOrEmpty(genre.Description) ? "-" : (genre.Description.Length > 60 ? genre.Description.Substring(0, 60) + "..." : genre.Description))
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-pill active">
+                                🎵 @genre.SongByGenreCount Şarkı
+                            </span>
+                        </td>
+                        <td>
+                            <div class="row-actions">
+                                <a href="/Admin/Genres/UpdateGenres/@genre.Id" class="edit-btn" title="Düzenle">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <a href="/Admin/Genres/RemoveGenres/@genre.Id" class="delete-btn" title="Sil" onclick="return confirm('@genre.Name türünü silmek istediğinize emin misiniz?');">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="table-empty-cell">
+                        Henüz eklenmiş bir müzik türü bulunamadı.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

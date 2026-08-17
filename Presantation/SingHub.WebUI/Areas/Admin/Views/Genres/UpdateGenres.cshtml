@@ -1,0 +1,60 @@
+﻿@model UpdateGenresDto
+
+@{
+    ViewData["Title"] = "Tür Düzenle | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Müzik Türünü Düzenle</h1>
+        <p><strong>#@Model?.Id</strong> numaralı <strong>@Model?.Name</strong> tür bilgilerini güncelliyorsunuz.</p>
+    </div>
+    <a href="/Admin/Genres/Index" class="btn-secondary">
+        ← Listeye Dön
+    </a>
+</div>
+
+<div class="form-container">
+    <div class="card form-card">
+        <form asp-action="UpdateGenres" method="post" autocomplete="off">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label class="form-label">Tür Adı <span class="required">*</span></label>
+                <input type="text" asp-for="Name" class="form-control" placeholder="Örn: Rock, Pop, Jazz" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Görsel URL (Image Link)</label>
+                <input type="text" asp-for="ImageUrl" id="genreImageUrl" class="form-control" placeholder="https://domain.com/images/genre-cover.jpg" />
+                <span class="input-hint">Kapak görseli bağlantısını güncelleyebilirsiniz.</span>
+            </div>
+
+            <div class="image-preview-wrapper">
+                <label class="form-label">Görsel Önizleme</label>
+                <div class="preview-box" id="previewBox">
+                    <img id="imagePreview" src="@Model?.ImageUrl" alt="Önizleme" style="@(string.IsNullOrEmpty(Model?.ImageUrl) ? "display:none;" : "display:block;")" />
+                    <span id="previewPlaceholder" style="@(string.IsNullOrEmpty(Model?.ImageUrl) ? "display:block;" : "display:none;")">Geçerli bir Resim URL'si girildiğinde önizleme burada görünecektir.</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Açıklama</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Müzik türü açıklaması..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin/Genres/Index" class="btn-cancel">İptal</a>
+                <button type="submit" class="btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <polyline points="17 21 17 13 7 13 7 21" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <polyline points="7 3 7 8 15 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Değişiklikleri Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -21,7 +21,6 @@
         overlay.addEventListener('click', closeSidebar);
     }
 
-    /* ===== Nav Link Active State ===== */
     var navLinks = document.querySelectorAll('.nav-link[data-page]');
     navLinks.forEach(function (link) {
         link.addEventListener('click', function () {
@@ -34,7 +33,7 @@
         });
     });
 
-    /* ===== Logout ===== */
+  
     var logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
@@ -42,13 +41,13 @@
         });
     }
 
-    /* ===== Toast Helper (Global Access) ===== */
+
     var toast = document.getElementById('toast');
     var toastMsg = document.getElementById('toastMsg');
     var toastSub = document.getElementById('toastSub');
     var toastTimer = null;
 
-    // Sayfa içindeki diğer JS dosyalarının da erişebilmesi için window'a bağlandı
+
     window.showToast = function (msg, sub) {
         if (!toast || !toastMsg) return;
         toastMsg.textContent = msg;

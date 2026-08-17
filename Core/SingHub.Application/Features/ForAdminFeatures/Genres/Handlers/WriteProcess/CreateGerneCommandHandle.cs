@@ -5,7 +5,7 @@ using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Features.ForAdminFeatures.Genres.Commands;
 using SingHub.Domain.Entities;
 
-namespace SingHub.Application.Features.ForAdminFeatures.Genres.Handlers.WriteOperations;
+namespace SingHub.Application.Features.ForAdminFeatures.Genres.Handlers.WriteProcess;
 
 public class CreateGerneCommandHandle(IGenericRepository<Genre> repository, IMapper mapper, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateGenreCommand, BaseResult<object>>
