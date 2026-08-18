@@ -15,6 +15,6 @@ public class CreateGerneCommandHandle(IGenericRepository<Genre> repository, IMap
         var value = mapper.Map<Genre>(request);
         await repository.CreateAsync(value);
         var result = await unitOfWork.SaveChangesAsync();
-        return BaseResult<object>.Success(value, "The value has been successfully updated.", result);
+        return BaseResult<object>.Success(value, "The value has been successfully created.", result);
     }
 }
