@@ -1,8 +1,8 @@
-﻿using SingHub.Application.Bases;
+﻿namespace SingHub.Dto.ForAdminPageDtos.ArtistsDto;
 
-namespace SingHub.Application.Features.ForAdminFeatures.Artists.Result;
-public class GetArtistQueryResult : BaseDto
+public class ResultArtistsDto
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Biography { get; set; }
     public string ImageUrl { get; set; }

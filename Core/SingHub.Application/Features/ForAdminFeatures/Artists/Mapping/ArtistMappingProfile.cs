@@ -12,7 +12,10 @@ public class ArtistMappingProfile : Profile
         CreateMap<CreateArtistCommand, Artist>();
         CreateMap<UpdateArtistCommand, Artist>();
 
-        CreateMap<Artist, GetArtistQueryResult>();
+        CreateMap<Artist, GetArtistQueryResult>()
+            .ForMember(desc => desc.SongByAlbumCount, opt => opt.MapFrom(src => src.Albums.Count))
+            .ForMember(desc => desc.SongByArtistCount, opt => opt.MapFrom(src => src.Songs.Count));
+
         CreateMap<Artist, GetArtistByIdQueryResult>();
     }
 }

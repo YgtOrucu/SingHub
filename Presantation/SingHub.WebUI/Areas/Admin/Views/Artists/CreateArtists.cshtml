@@ -1,0 +1,81 @@
+﻿@model CreateArtistsDto
+
+@{
+    ViewData["Title"] = "Yeni Sanatçı Ekle | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h1>Yeni Sanatçı Kaydı</h1>
+        <p>SingHub platformuna yeni bir vokalis, müzisyen veya müzik grubu ekleyin.</p>
+    </div>
+    <a href="/Admin/Artists/Index" class="btn-secondary">
+        ← Listeye Dön
+    </a>
+</div>
+
+<div class="form-container">
+    <div class="card form-card">
+        <form asp-action="CreateArtists" method="post" autocomplete="off">
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Sanatçı / Grup Adı <span class="required">*</span></label>
+                    <input type="text" asp-for="Name" class="form-control" placeholder="Örn: The Weeknd, Tarkan, Coldplay" required />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Ülke</label>
+                    <input type="text" asp-for="Country" class="form-control" placeholder="Örn: Türkiye, ABD, İngiltere" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Doğum / Kuruluş Tarihi</label>
+                <input type="date" asp-for="BirthDate" class="form-control" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Profil Resim URL (Image URL)</label>
+                    <input type="text" asp-for="ImageUrl" id="artistImageUrl" class="form-control" placeholder="https://domain.com/artist-profile.jpg" />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Banner Görsel URL (Header Banner)</label>
+                    <input type="text" asp-for="BannerUrl" id="artistBannerUrl" class="form-control" placeholder="https://domain.com/artist-banner.jpg" />
+                </div>
+            </div>
+
+            <div class="media-preview-grid">
+                <div class="preview-box">
+                    <div class="preview-title">Profil Görseli Önizleme</div>
+                    <img id="avatarPreview" src="" alt="Avatar Önizleme" style="display:none;" />
+                    <span id="avatarPlaceholder">Geçerli Görsel URL'si Giriniz</span>
+                </div>
+
+                <div class="preview-box">
+                    <div class="preview-title">Banner Görseli Önizleme</div>
+                    <img id="bannerPreview" src="" alt="Banner Önizleme" style="display:none;" />
+                    <span id="bannerPlaceholder">Geçerli Banner URL'si Giriniz</span>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label class="form-label">Biyografi</label>
+                <textarea asp-for="Biography" class="form-control" rows="5" placeholder="Sanatçının hayatı, müzik kariyeri ve başarıları hakkında bilgi girin..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin/Artists/Index" class="btn-cancel">İptal</a>
+                <button type="submit" class="btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Sanatçıyı Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
