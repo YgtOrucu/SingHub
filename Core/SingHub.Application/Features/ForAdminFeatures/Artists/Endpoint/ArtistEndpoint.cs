@@ -13,11 +13,11 @@ public static class ArtistEndpoint
     {
         var artist = app.MapGroup("/artist").WithTags("Artist");
 
-        artist.MapPost(string.Empty, CreateArtistsAsync).AllowAnonymous();
-        artist.MapPut(string.Empty, UpdateArtistsAsync).AllowAnonymous();
-        artist.MapGet(string.Empty, GetArtistsAsync).AllowAnonymous();
-        artist.MapGet("{id}", GetArtistsByIdAsync).AllowAnonymous();
-        artist.MapDelete("{id}", RemoveArtistsAsync).AllowAnonymous();
+        artist.MapPost(string.Empty, CreateArtistsAsync);
+        artist.MapPut(string.Empty, UpdateArtistsAsync);
+        artist.MapGet(string.Empty, GetArtistsAsync);
+        artist.MapGet("{id}", GetArtistsByIdAsync);
+        artist.MapDelete("{id}", RemoveArtistsAsync);
     }
 
     private static async Task<IResult> CreateArtistsAsync(IMediator mediator, CreateArtistCommand command)

@@ -1,0 +1,77 @@
+/* Albüm Listesi Hücresi & Kapak */
+.album-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.album-cover {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .album-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.album-cover-placeholder {
+    font-size: 18px;
+}
+
+.album-title {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.artist-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #a78bfa;
+    font-weight: 500;
+}
+
+/* Önizleme Kutu Stilleri */
+.album-preview-wrapper {
+    margin-top: 16px;
+}
+
+.album-preview-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    background: var(--input-bg);
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-align: center;
+    padding: 6px;
+    margin-top: 6px;
+}
+
+    .album-preview-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }

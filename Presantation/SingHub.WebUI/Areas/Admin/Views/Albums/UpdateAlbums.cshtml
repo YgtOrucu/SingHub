@@ -1,0 +1,75 @@
+﻿@model UpdateAlbumsDto
+
+@{
+    ViewData["Title"] = "Albüm Düzenle | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    var artists = ViewBag.Artist as List<GetArtistForUpsertDto>;
+}
+
+<div class="page-header">
+    <div>
+        <h1>Albüm Bilgilerini Düzenle</h1>
+        <p><strong>#@Model?.Id</strong> numaralı <strong>@Model?.Title</strong> albüm detaylarını güncelliyorsunuz.</p>
+    </div>
+    <a href="/Admin/Albums/Index" class="btn-secondary">← Listeye Dön</a>
+</div>
+
+<div class="form-container">
+    <div class="card form-card">
+        <form asp-action="UpdateAlbums" method="post" autocomplete="off">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Albüm Adı <span class="required">*</span></label>
+                    <input type="text" asp-for="Title" class="form-control" required />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Sanatçı Seçin <span class="required">*</span></label>
+                    <select asp-for="ArtistId" class="form-control" required>
+                        <option value="">-- Sanatçı Seçiniz --</option>
+                        @if (artists != null)
+                        {
+                            @foreach (var artist in artists)
+                            {
+                                <option value="@artist.Id" selected="@(artist.Id == Model?.ArtistId ? "selected" : null)">@artist.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Yayın Tarihi <span class="required">*</span></label>
+                    <input type="date" asp-for="ReleaseDate" class="form-control" value="@(Model?.ReleaseDate != DateTime.MinValue ? Model?.ReleaseDate.ToString("yyyy-MM-dd") : "")" required />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Kapak Görsel URL</label>
+                    <input type="text" asp-for="CoverImageUrl" id="albumCoverUrl" class="form-control" />
+                </div>
+            </div>
+
+            <div class="album-preview-wrapper">
+                <div class="preview-title">Albüm Kapak Önizlemesi</div>
+                <div class="album-preview-box">
+                    <img id="coverPreview" src="@Model?.CoverImageUrl" alt="Kapak Önizleme" style="@(string.IsNullOrEmpty(Model?.CoverImageUrl) ? "display:none;" : "display:block;")" />
+                    <span id="coverPlaceholder" style="@(string.IsNullOrEmpty(Model?.CoverImageUrl) ? "display:block;" : "display:none;")">Geçerli Görsel URL'si Giriniz</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin/Albums/Index" class="btn-cancel">İptal</a>
+                <button type="submit" class="btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <polyline points="17 21 17 13 7 13 7 21" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Değişiklikleri Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
