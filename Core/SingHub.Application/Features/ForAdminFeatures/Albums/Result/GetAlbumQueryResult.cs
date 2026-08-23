@@ -1,7 +1,7 @@
 ﻿using SingHub.Application.Bases;
 
 namespace SingHub.Application.Features.ForAdminFeatures.Albums.Result;
-public class GetAlbumQueryResult : BaseDto
+public class GetAlbumQueryResult : AuditableDto
 {
     public string Title { get; set; }
     public string? CoverImageUrl { get; set; }

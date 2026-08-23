@@ -18,6 +18,7 @@ public class AlbumRepository(SingHubContext context) : IAlbumService
             ReleaseDate = x.ReleaseDate,
             Title = x.Title,
             SongCountByAlbum = x.Songs.Count,
+            IsDeleted = x.IsDeleted
         }).ToListAsync();
     }
 

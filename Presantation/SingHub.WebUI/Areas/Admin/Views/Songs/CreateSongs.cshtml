@@ -1,0 +1,115 @@
+﻿@model CreateSongsDto
+
+@{
+    ViewData["Title"] = "Yeni Şarkı Ekle | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    var artists = ViewBag.Artists as List<SingHub.Dto.ForAdminPageDtos.SongsDto.GetArtistForUpsertDto>;
+    var genres = ViewBag.Genres as List<GetGenreForUpsertDto>;
+    var albums = ViewBag.Albums as List<GetAlbumForUpsertDto>;
+}
+
+<div class="page-header">
+    <div>
+        <h1>Yeni Şarkı Kaydı</h1>
+        <p>Sisteme yeni bir şarkı verisi, sanatçı ve tür eşleşmesi ekleyin.</p>
+    </div>
+    <a href="/Admin/Songs/Index" class="btn-secondary">← Listeye Dön</a>
+</div>
+
+<div class="form-container">
+    <div class="card form-card">
+        <form asp-action="CreateSongs" method="post" autocomplete="off">
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Şarkı Adı <span class="required">*</span></label>
+                    <input type="text" asp-for="Title" class="form-control" placeholder="Örn: Blinding Lights, Starboy" required />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Süre (Saniye) <span class="required">*</span></label>
+                    <input type="number" asp-for="Duration" class="form-control" placeholder="Örn: 200" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Sanatçı Seçin <span class="required">*</span></label>
+                    <select asp-for="ArtistId" class="form-control" required>
+                        <option value="">-- Sanatçı Seçiniz --</option>
+                        @if (artists != null)
+                        {
+                            @foreach (var artist in artists)
+                            {
+                                <option value="@artist.Id">@artist.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Müzik Türü Seçin <span class="required">*</span></label>
+                    <select asp-for="GenreId" class="form-control" required>
+                        <option value="">-- Tür Seçiniz --</option>
+                        @if (genres != null)
+                        {
+                            @foreach (var genre in genres)
+                            {
+                                <option value="@genre.Id">@genre.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Albüm Seçin (Opsiyonel)</label>
+                    <select asp-for="AlbumId" class="form-control">
+                        <option value="">-- Albüm Seçiniz (Single ise Boş Bırakın) --</option>
+                        @if (albums != null)
+                        {
+                            @foreach (var album in albums)
+                            {
+                                <option value="@album.Id">@album.Title</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label class="form-label">Ses Dosyası URL (Audio URL) <span class="required">*</span></label>
+                    <input type="text" asp-for="AudioUrl" class="form-control" placeholder="https://domain.com/audio.mp3" required />
+                </div>
+
+                <div class="form-group flex-1">
+                    <label class="form-label">Yayın Tarihi <span class="required">*</span></label>
+                    <input type="date" asp-for="ReleaseDate" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kapak Görsel URL (Cover Image)</label>
+                <input type="text" asp-for="CoverImageUrl" id="songCoverUrl" class="form-control" placeholder="https://domain.com/cover.jpg" />
+            </div>
+
+            <div class="album-preview-wrapper">
+                <div class="preview-title">Şarkı Kapak Önizlemesi</div>
+                <div class="album-preview-box">
+                    <img id="coverPreview" src="" alt="Kapak Önizleme" style="display:none;" />
+                    <span id="coverPlaceholder">Geçerli Görsel URL'si Giriniz</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="/Admin/Songs/Index" class="btn-cancel">İptal</a>
+                <button type="submit" class="btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Şarkıyı Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

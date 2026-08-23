@@ -5,7 +5,7 @@ using SingHub.Domain.Entities;
 
 namespace SingHub.Application.Features.ForAdminFeatures.Albums.Mapping
 {
-    internal class AlbumMappingProfile : Profile
+    public class AlbumMappingProfile : Profile
     {
         public AlbumMappingProfile()
         {

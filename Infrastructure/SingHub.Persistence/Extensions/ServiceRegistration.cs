@@ -40,6 +40,7 @@ public static class ServiceRegistration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAlbumService, AlbumRepository>();
+        services.AddScoped<ISongService, SongRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
     }
 

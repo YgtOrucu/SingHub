@@ -19,7 +19,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 var result = await response.Content.ReadFromJsonAsync<BaseResult<List<ResultAlbumsDto>>>();
                 var allData = result?.Data ?? new List<ResultAlbumsDto>();
 
-                int totalCount = allData.Count;
+                int totalCount = allData.Where(x => !x.IsDeleted).Count();
                 int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
                 if (page < 1) page = 1;

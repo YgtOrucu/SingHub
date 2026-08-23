@@ -1,0 +1,210 @@
+﻿@model List<ResultSongsDto>
+
+@{
+    ViewData["Title"] = "Şarkı Yönetimi | SingHub Admin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int pageSize = ViewBag.PageSize ?? 5;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int totalCount = ViewBag.TotalCount ?? 0;
+
+    int showingStart = totalCount > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+    int showingEnd = Math.Min(currentPage * pageSize, totalCount);
+}
+
+<div class="page-header">
+    <div>
+        <h1>Şarkılar (Songs)</h1>
+        <p>Platformdaki tüm ses içeriklerini, sanatçı/albüm eşleşmelerini ve dinlenme istatistiklerini yönetin.</p>
+    </div>
+    <a href="/Admin/Songs/CreateSongs" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4v16m8-8H4" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        Yeni Şarkı Ekle
+    </a>
+</div>
+
+<div class="stat-grid">
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon purple-blue">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18V5l12-2v13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="6" cy="18" r="3" stroke="#fff" stroke-width="1.8" />
+                    <circle cx="18" cy="16" r="3" stroke="#fff" stroke-width="1.8" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Kayıtlı</span>
+        </div>
+        <div>
+            <div class="stat-value">@totalCount</div>
+            <div class="stat-label">Toplam Şarkı</div>
+        </div>
+    </div>
+
+    <div class="card stat-card">
+        <div class="stat-top">
+            <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.75 12a2.75 2.75 0 11-5.5 0 2.75 2.75 0 015.5 0z" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M2 12c1.6-4.5 6-7.5 10-7.5s8.4 3 10 7.5c-1.6 4.5-6 7.5-10 7.5S3.6 16.5 2 12z" stroke="currentColor" stroke-width="1.8" />
+                </svg>
+            </div>
+            <span class="stat-trend up">Dinlenme</span>
+        </div>
+        <div>
+            <div class="stat-value">@(Model != null ? Model.Sum(x => x.ListenCount).ToString("N0") : "0")</div>
+            <div class="stat-label">Toplam Dinlenme</div>
+        </div>
+    </div>
+</div>
+
+<div class="card table-card">
+    <div class="card-header">
+        <div>
+            <h2>Şarkı Listesi</h2>
+            <div class="sub">Sayfa başına @pageSize kayıt listeleniyor</div>
+        </div>
+        <div class="search-box table-search-box">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
+                <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <input type="text" id="songSearchInput" placeholder="Şarkı, sanatçı veya albüm ara..." />
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Kapak & Şarkı Adı</th>
+                <th>Sanatçı</th>
+                <th>Tür</th>
+                <th>Albüm</th>
+                <th>Süre</th>
+                <th>Dinlenme</th>
+                <th>Yayın Tarihi</th>
+                <th class="table-header-right">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody id="songListBody">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var song in Model.Where(x => !x.IsDeleted))
+                {
+                    <tr>
+                        <td>
+                            <div class="album-cell">
+                                <div class="album-cover">
+                                    @if (!string.IsNullOrEmpty(song.CoverImageUrl))
+                                    {
+                                        <img src="@song.CoverImageUrl" alt="@song.Title" onerror="this.src='/images/default-album.png'; this.onerror=null;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="album-cover-placeholder">🎵</div>
+                                    }
+                                </div>
+                                <div class="album-title">@song.Title</div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="artist-badge">
+                                👤 @(string.IsNullOrEmpty(song.ArtistName) ? "Bilinmeyen Sanatçı" : song.ArtistName)
+                            </span>
+                        </td>
+                        <td>
+                            <span class="status-pill active">@song.GenreName</span>
+                        </td>
+                        <td style="color: var(--text-body);">
+                            @(string.IsNullOrEmpty(song.AlbumTitle) ? "Single" : song.AlbumTitle)
+                        </td>
+                        <td style="color: var(--text-body);">
+                            @(TimeSpan.FromSeconds(song.Duration).ToString(@"mm\:ss")) dk
+                        </td>
+                        <td>
+                            <span style="font-weight: 600; color: #a78bfa;">🎧 @song.ListenCount.ToString("N0")</span>
+                        </td>
+                        <td style="color: var(--text-body);">
+                            @(song.ReleaseDate != DateTime.MinValue ? song.ReleaseDate.ToString("dd.MM.yyyy") : "-")
+                        </td>
+                        <td>
+                            <div class="row-actions">
+                                <a href="/Admin/Songs/UpdateSongs/@song.Id" class="edit-btn" title="Düzenle">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <a href="/Admin/Songs/RemoveSongs/@song.Id" class="delete-btn" title="Sil" onclick="return confirm('@song.Title şarkısını silmek istediğinize emin misiniz?');">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 7h14M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a2 2 0 002 2h6a2 2 0 002-2V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="table-empty-cell">
+                        Henüz kayıtlı bir şarkı bulunamadı.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-wrapper">
+    <div class="pagination-info">
+        Toplam <strong>@totalCount</strong> kayıttan
+        <strong>@showingStart</strong> -
+        <strong>@showingEnd</strong> arası gösteriliyor
+    </div>
+
+    <div class="pagination-controls">
+        @if (currentPage > 1)
+        {
+            <a href="/Admin/Songs/Index?page=@(currentPage - 1)&pageSize=@pageSize" class="page-btn">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Önceki
+            </a>
+        }
+        else
+        {
+            <button class="page-btn" disabled>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Önceki
+            </button>
+        }
+
+        <div class="page-numbers">
+            <span class="page-number active">@currentPage / @(totalPages == 0 ? 1 : totalPages)</span>
+        </div>
+
+        @if (currentPage < totalPages)
+        {
+            <a href="/Admin/Songs/Index?page=@(currentPage + 1)&pageSize=@pageSize" class="page-btn">
+                Sonraki
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <button class="page-btn" disabled>
+                Sonraki
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        }
+    </div>
+</div>
