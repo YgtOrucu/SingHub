@@ -48,8 +48,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             }
             else
             {
-                var result = await response.Content.ReadFromJsonAsync<ApiResponseError>();
-                TempData["ErrorMessage"] = result?.Errors?.FirstOrDefault()?.Message ?? "Rol güncellenirken bir hata oluştu.";
+                TempData["ErrorMessage"] =  "Rol güncellenirken bir hata oluştu.";
             }
 
             return RedirectToAction(nameof(Index));
@@ -58,12 +57,12 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
         #region GetErrorsMethod
         private async Task GetErrors(HttpResponseMessage response)
         {
-            var result = await response.Content.ReadFromJsonAsync<ApiResponseError>();
+            var result = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
             if (result?.Errors != null)
             {
                 foreach (var err in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, err.Message ?? "An error occurred.");
+                    ModelState.AddModelError(string.Empty, err.ErrorMessage ?? "An error occurred.");
                 }
             }
         }

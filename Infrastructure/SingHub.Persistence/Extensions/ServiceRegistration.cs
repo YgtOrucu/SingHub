@@ -40,7 +40,9 @@ public static class ServiceRegistration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAlbumService, AlbumRepository>();
+        services.AddScoped<IArtistService, ArtistRepository>();
         services.AddScoped<ISongService, SongRepository>();
+        services.AddScoped<IGenreService, GenreRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
     }
 

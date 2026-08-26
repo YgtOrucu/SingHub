@@ -16,6 +16,6 @@ public class CreateArtistCommandHandle(IGenericRepository<Artist> repository, IM
         await repository.CreateAsync(value);
         var result = await unitOfWork.SaveChangesAsync();
 
-        return BaseResult<object>.Success(value, "The value has been successfully created.", result);
+        return BaseResult<object>.Success("The value has been successfully created.", result);
     }
 }

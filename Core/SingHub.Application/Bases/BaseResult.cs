@@ -21,11 +21,10 @@ public class BaseResult<T>
         return new BaseResult<T> { Data = data, Errors = null, Message = "Listing was successful.", Status = true };
     }
 
-    public static BaseResult<T> Success(T data, string message, bool result)
+    public static BaseResult<T> Success(string message, bool result)
     {
         return new BaseResult<T>
         {
-            Data = data,
             Message = message,
             Status = result
         };

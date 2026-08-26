@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SingHub.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SingHub.Persistence.Context;
 namespace SingHub.Persistence.Migrations
 {
     [DbContext(typeof(SingHubContext))]
-    partial class SingHubContextModelSnapshot : ModelSnapshot
+    [Migration("20260823175921_AddAppRoleSongRelationship")]
+    partial class AddAppRoleSongRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +165,7 @@ namespace SingHub.Persistence.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("Albums", (string)null);
+                    b.ToTable("Albums");
                 });
 
             modelBuilder.Entity("SingHub.Domain.Entities.AppRole", b =>
@@ -314,7 +317,7 @@ namespace SingHub.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artists", (string)null);
+                    b.ToTable("Artists");
                 });
 
             modelBuilder.Entity("SingHub.Domain.Entities.Genre", b =>
@@ -349,7 +352,7 @@ namespace SingHub.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("SingHub.Domain.Entities.Song", b =>
@@ -394,6 +397,9 @@ namespace SingHub.Persistence.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
@@ -409,22 +415,9 @@ namespace SingHub.Persistence.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Songs", (string)null);
-                });
+                    b.HasIndex("RoleId");
 
-            modelBuilder.Entity("SingHub.Domain.Entities.SongAppRole", b =>
-                {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("SongId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoleId", "SongId");
-
-                    b.HasIndex("SongId");
-
-                    b.ToTable("SongAppRoles", (string)null);
+                    b.ToTable("Songs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -508,30 +501,18 @@ namespace SingHub.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("SingHub.Domain.Entities.AppRole", "AppRole")
+                        .WithMany("Songs")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Album");
+
+                    b.Navigation("AppRole");
 
                     b.Navigation("Artist");
 
                     b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("SingHub.Domain.Entities.SongAppRole", b =>
-                {
-                    b.HasOne("SingHub.Domain.Entities.AppRole", "AppRole")
-                        .WithMany("SongAppRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SingHub.Domain.Entities.Song", "Song")
-                        .WithMany("SongAppRoles")
-                        .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppRole");
-
-                    b.Navigation("Song");
                 });
 
             modelBuilder.Entity("SingHub.Domain.Entities.Album", b =>
@@ -541,7 +522,7 @@ namespace SingHub.Persistence.Migrations
 
             modelBuilder.Entity("SingHub.Domain.Entities.AppRole", b =>
                 {
-                    b.Navigation("SongAppRoles");
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("SingHub.Domain.Entities.Artist", b =>
@@ -554,11 +535,6 @@ namespace SingHub.Persistence.Migrations
             modelBuilder.Entity("SingHub.Domain.Entities.Genre", b =>
                 {
                     b.Navigation("Songs");
-                });
-
-            modelBuilder.Entity("SingHub.Domain.Entities.Song", b =>
-                {
-                    b.Navigation("SongAppRoles");
                 });
 #pragma warning restore 612, 618
         }

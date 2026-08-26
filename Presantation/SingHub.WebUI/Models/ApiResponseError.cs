@@ -2,12 +2,7 @@
 {
     public class ApiResponseError
     {
-        public List<ApiErrorDetail>? Errors { get; set; }
-    }
-
-    public class ApiErrorDetail
-    {
+        public string ErrorMessage { get; set; } = null!;
         public string Code { get; set; } = null!;
-        public string Message { get; set; } = null!;
     }
 }

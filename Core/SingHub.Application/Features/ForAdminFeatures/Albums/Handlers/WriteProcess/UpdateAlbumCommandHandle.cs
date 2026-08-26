@@ -22,7 +22,7 @@ namespace SingHub.Application.Features.ForAdminFeatures.Albums.Handlers.WritePro
             repository.Update(value);
 
             var result = await unitOfWork.SaveChangesAsync();
-            return BaseResult<object>.Success(value, "The value has been successfully updated.", result);
+            return BaseResult<object>.Success("The value has been successfully updated.", result);
         }
     }
 }

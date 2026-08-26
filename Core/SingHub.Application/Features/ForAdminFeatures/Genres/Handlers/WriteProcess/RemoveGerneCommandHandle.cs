@@ -21,6 +21,6 @@ public class RemoveGerneCommandHandle(IGenericRepository<Genre> repository, IMap
         repository.Delete(value);
         var result = await unitOfWork.SaveChangesAsync();
 
-        return BaseResult<object>.Success(value, "The value has been successfully deleted.", result);
+        return BaseResult<object>.Success("The value has been successfully deleted.", result);
     }
 }

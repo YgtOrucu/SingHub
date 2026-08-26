@@ -14,4 +14,5 @@ public class UpdateSongCommand : IRequest<BaseResult<object>>
     public int ArtistId { get; set; }
     public int GenreId { get; set; }
     public int? AlbumId { get; set; }
+    public List<Guid> SelectedRoleIds { get; set; } = new();
 }

@@ -10,4 +10,5 @@ public class CreateSongsDto
     public int ArtistId { get; set; }
     public int GenreId { get; set; }
     public int? AlbumId { get; set; }
+    public List<Guid> SelectedRoleIds { get; set; } = new();
 }

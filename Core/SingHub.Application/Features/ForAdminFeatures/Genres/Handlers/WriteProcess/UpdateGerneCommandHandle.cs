@@ -22,6 +22,6 @@ public class UpdateGerneCommandHandle(IGenericRepository<Genre> repository, IMap
         repository.Update(value);
 
         var result = await unitOfWork.SaveChangesAsync();
-        return BaseResult<object>.Success(value, "The value has been successfully updated.", result);
+        return BaseResult<object>.Success("The value has been successfully updated.", result);
     }
 }

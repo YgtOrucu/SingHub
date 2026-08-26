@@ -9,7 +9,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
     {
      
         [HttpGet]
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
             var client = httpClientFactory.CreateClient("SingHubAPI");
             var response = await client.GetAsync("artist");

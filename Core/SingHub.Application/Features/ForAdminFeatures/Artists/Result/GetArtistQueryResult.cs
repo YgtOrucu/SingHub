@@ -8,7 +8,7 @@ public class GetArtistQueryResult : BaseDto
     public string ImageUrl { get; set; }
     public string BannerUrl { get; set; }
     public string Country { get; set; }
-    public DateTime BirthDate { get; set; }
-    public int SongByArtistCount { get; set; }
-    public int SongByAlbumCount { get; set; }
+    public DateTime? BirthDate { get; set; }
+    public int ArtistBySongCount { get; set; }
+    public int ArtistByAlbumCount { get; set; }
 }

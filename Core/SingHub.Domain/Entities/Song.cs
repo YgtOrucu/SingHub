@@ -16,4 +16,5 @@ public class Song : AuditableEntity
     public Genre Genre { get; set; } = null!;
     public int? AlbumId { get; set; }
     public Album? Album { get; set; }
+    public ICollection<SongAppRole> SongAppRoles { get; set; } = new List<SongAppRole>();
 }

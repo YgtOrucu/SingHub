@@ -54,7 +54,7 @@
             <span class="stat-trend up">Dinlenme</span>
         </div>
         <div>
-            <div class="stat-value">@(Model != null ? Model.Sum(x => x.ListenCount).ToString("N0") : "0")</div>
+            <div class="stat-value">@ViewBag.TotalListenCount</div>
             <div class="stat-label">Toplam Dinlenme</div>
         </div>
     </div>

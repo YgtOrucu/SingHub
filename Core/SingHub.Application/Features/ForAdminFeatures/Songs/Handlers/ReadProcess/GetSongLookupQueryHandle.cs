@@ -8,7 +8,8 @@ namespace SingHub.Application.Features.ForAdminFeatures.Songs.Handlers.ReadProce
 public class GetSongLookupQueryHandler(ISongService repository) :
     IRequestHandler<GetArtistForUpsertQuery, BaseResult<List<GetArtistForUpsertQueryResult>>>,
     IRequestHandler<GetGenreForUpsertQuery, BaseResult<List<GetGenreForUpsertQueryResult>>>,
-    IRequestHandler<GetAlbumForUpsertQuery, BaseResult<List<GetAlbumForUpsertQueryResult>>>
+    IRequestHandler<GetAlbumForUpsertQuery, BaseResult<List<GetAlbumForUpsertQueryResult>>>,
+    IRequestHandler<GetRoleForUpsertQuery, BaseResult<List<GetRoleForUpsertQueryResult>>>
 {
     public async Task<BaseResult<List<GetArtistForUpsertQueryResult>>> Handle(GetArtistForUpsertQuery request, CancellationToken cancellationToken)
     {
@@ -26,5 +27,11 @@ public class GetSongLookupQueryHandler(ISongService repository) :
     {
         var data = await repository.GetAlbumForUpsertAsync();
         return BaseResult<List<GetAlbumForUpsertQueryResult>>.Success(data);
+    }
+
+    public async Task<BaseResult<List<GetRoleForUpsertQueryResult>>> Handle(GetRoleForUpsertQuery request, CancellationToken cancellationToken)
+    {
+        var data = await repository.GetRoleForUpsertAsync();
+        return BaseResult<List<GetRoleForUpsertQueryResult>>.Success(data);
     }
 }

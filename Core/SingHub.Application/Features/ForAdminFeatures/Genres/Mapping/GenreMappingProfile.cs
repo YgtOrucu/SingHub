@@ -11,8 +11,6 @@ public class GenreMappingProfile : Profile
     {
         CreateMap<CreateGenreCommand, Genre>();
         CreateMap<UpdateGenreCommand, Genre>();
-
-        CreateMap<Genre, GetGenreQueryResult>().ForMember(desc => desc.SongByGenreCount, opt => opt.MapFrom(src => src.Songs.Count));
         CreateMap<Genre, GetGenreByIdQueryResult>();
     }
 }

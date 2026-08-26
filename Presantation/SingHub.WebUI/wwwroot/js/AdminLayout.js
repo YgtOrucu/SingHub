@@ -41,6 +41,13 @@
         });
     }
 
+    var goWebSite = document.getElementById('GoWebSite');
+    if (goWebSite) {
+        goWebSite.addEventListener('click', function () {
+            window.showToast('', 'Siteye yönlendiriliyorsunuz...');
+        });
+    }
+
 
     var toast = document.getElementById('toast');
     var toastMsg = document.getElementById('toastMsg');

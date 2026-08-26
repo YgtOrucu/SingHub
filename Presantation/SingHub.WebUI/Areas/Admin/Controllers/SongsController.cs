@@ -10,7 +10,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : Controller
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("SingHubAPI");
 
     [HttpGet]
-    public async Task<IActionResult> Index(int page = 1, int pageSize = 5)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 20)
     {
         var response = await _httpClient.GetAsync("song");
 
@@ -21,6 +21,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : Controller
 
             int totalCount = allData.Count(x => !x.IsDeleted);
             int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            string totalListenCount = allData.Where(x => !x.IsDeleted).Sum(x => x.ListenCount).ToString("N0");
 
             if (page < 1) page = 1;
             if (page > totalPages && totalPages > 0) page = totalPages;
@@ -34,6 +35,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : Controller
             ViewBag.PageSize = pageSize;
             ViewBag.TotalPages = totalPages;
             ViewBag.TotalCount = totalCount;
+            ViewBag.TotalListenCount = totalListenCount;
 
             return View(pagedData);
         }
@@ -98,6 +100,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : Controller
         ViewBag.Artists = await GetLookupAsync<GetArtistForUpsertDto>("song/GetArtistForUpsert");
         ViewBag.Genres = await GetLookupAsync<GetGenreForUpsertDto>("song/GetGenreForUpsert");
         ViewBag.Albums = await GetLookupAsync<GetAlbumForUpsertDto>("song/GetAlbumForUpsert");
+        ViewBag.Roles = await GetLookupAsync<GetRolesForUpsertDto>("song/GetRoleForUpsert");
     }
 
     private async Task<List<T>> GetLookupAsync<T>(string endpoint)

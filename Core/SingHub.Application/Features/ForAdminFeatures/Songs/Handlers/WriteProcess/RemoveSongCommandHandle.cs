@@ -19,6 +19,6 @@ public class RemoveSongCommandHandler(
         repository.Delete(song);
         var result = await unitOfWork.SaveChangesAsync();
 
-        return BaseResult<object>.Success(song, "The value has been successfully deleted.", result);
+        return BaseResult<object>.Success("The value has been successfully deleted.", result);
     }
 }

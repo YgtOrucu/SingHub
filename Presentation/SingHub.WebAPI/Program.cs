@@ -7,7 +7,12 @@ using SingHub.WebAPI.Registration;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AppApplicationSetting(builder.Configuration);
 builder.Services.AppPersistenceSetting(builder.Configuration);
 builder.Services.AppInfrastructureSetting(builder.Configuration);
@@ -27,5 +32,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapGroup("/api").RequireAuthorization().RegisterEndpoints();
+app.MapGroup("/api")/*.RequireAuthorization()*/.RegisterEndpoints();
 app.Run();

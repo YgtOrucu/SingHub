@@ -15,9 +15,21 @@ public class CreateSongCommandHandler(
     public async Task<BaseResult<object>> Handle(CreateSongCommand request, CancellationToken cancellationToken)
     {
         var song = mapper.Map<Song>(request);
+
+        if (request.SelectedRoleIds.Any() && request.SelectedRoleIds != null)
+        {
+            foreach (var roleId in request.SelectedRoleIds)
+            {
+                song.SongAppRoles.Add(new SongAppRole
+                {
+                    RoleId = roleId,
+                });
+            }
+        }
+
         await repository.CreateAsync(song);
         var result = await unitOfWork.SaveChangesAsync();
 
-        return BaseResult<object>.Success(song, "The value has been successfully created.", result);
+        return BaseResult<object>.Success("The value has been successfully created.", result);
     }
 }

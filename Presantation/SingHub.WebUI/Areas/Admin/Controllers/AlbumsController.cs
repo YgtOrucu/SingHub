@@ -10,7 +10,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
         private readonly HttpClient _httpClient = httpClientFactory.CreateClient("SingHubAPI");
 
         [HttpGet]
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
             var response = await _httpClient.GetAsync("album");
 

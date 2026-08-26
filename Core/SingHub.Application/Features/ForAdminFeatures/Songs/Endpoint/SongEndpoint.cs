@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using SingHub.Application.Features.ForAdminFeatures.Songs.Commands;
@@ -13,15 +14,22 @@ public static class SongEndpoint
     {
         var song = app.MapGroup("/song").WithTags("Song");
 
-        song.MapPost(string.Empty, CreateSongsAsync).AllowAnonymous();
-        song.MapPut(string.Empty, UpdateSongsAsync).AllowAnonymous();
-        song.MapGet(string.Empty, GetSongsAsync).AllowAnonymous();
-        song.MapGet("{id}", GetSongsByIdAsync).AllowAnonymous();
-        song.MapDelete("{id}", RemoveSongsAsync).AllowAnonymous();
-        song.MapGet("GetArtistForUpsert", GetArtistForUpsertAsync).AllowAnonymous();
-        song.MapGet("GetGenreForUpsert", GetGenreForUpsertAsync).AllowAnonymous();
-        song.MapGet("GetAlbumForUpsert", GetAlbumForUpsertAsync).AllowAnonymous();
+        song.MapPost(string.Empty, CreateSongsAsync);
+        song.MapPut(string.Empty, UpdateSongsAsync);
+        song.MapGet(string.Empty, GetSongsAsync);
+        song.MapGet("{id}", GetSongsByIdAsync);
+        song.MapDelete("{id}", RemoveSongsAsync);
+        song.MapGet("GetArtistForUpsert", GetArtistForUpsertAsync);
+        song.MapGet("GetGenreForUpsert", GetGenreForUpsertAsync);
+        song.MapGet("GetAlbumForUpsert", GetAlbumForUpsertAsync);
+        song.MapGet("GetRoleForUpsert", GetRoleForUpsertAsync);
         
+    }
+
+    private static async Task<IResult> GetRoleForUpsertAsync(IMediator mediator)
+    {
+        var response = await mediator.Send(new GetRoleForUpsertQuery());
+        return response != null ? Results.Ok(response) : Results.BadRequest(response);
     }
 
     private static async Task<IResult> GetAlbumForUpsertAsync(IMediator mediator)

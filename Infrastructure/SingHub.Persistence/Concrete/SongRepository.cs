@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Features.ForAdminFeatures.Songs.Result;
 using SingHub.Domain.Entities;
@@ -6,21 +7,26 @@ using SingHub.Persistence.Context;
 
 namespace SingHub.Persistence.Concrete;
 
-public class SongRepository(SingHubContext context) : ISongService
+public class SongRepository(SingHubContext context, RoleManager<AppRole> roleManager) : ISongService
 {
     public async Task<List<GetAlbumForUpsertQueryResult>> GetAlbumForUpsertAsync()
     {
-        return await context.Albums.AsNoTracking().Select(x => new GetAlbumForUpsertQueryResult { Id = x.Id, Title = x.Title }).ToListAsync();
+        return await context.Albums.AsNoTracking().Where(x => !x.IsDeleted).Select(x => new GetAlbumForUpsertQueryResult { Id = x.Id, Title = x.Title }).ToListAsync();
     }
 
     public async Task<List<GetArtistForUpsertQueryResult>> GetArtistForUpsertAsync()
     {
-        return await context.Artists.AsNoTracking().Select(x => new GetArtistForUpsertQueryResult { Id = x.Id, Name = x.Name }).ToListAsync();
+        return await context.Artists.AsNoTracking().Where(x => !x.IsDeleted).Select(x => new GetArtistForUpsertQueryResult { Id = x.Id, Name = x.Name }).ToListAsync();
     }
 
     public async Task<List<GetGenreForUpsertQueryResult>> GetGenreForUpsertAsync()
     {
-       return  await context.Genres.AsNoTracking().Select(x => new GetGenreForUpsertQueryResult { Id = x.Id, Name = x.Name }).ToListAsync();
+        return await context.Genres.AsNoTracking().Where(x => !x.IsDeleted).Select(x => new GetGenreForUpsertQueryResult { Id = x.Id, Name = x.Name }).ToListAsync();
+    }
+
+    public async Task<List<GetRoleForUpsertQueryResult>> GetRoleForUpsertAsync()
+    {
+        return await roleManager.Roles.Where(x => x.Name != "Admin").Select(x => new GetRoleForUpsertQueryResult { Id = x.Id, Name = x.Name! }).ToListAsync();
     }
 
     public async Task<List<GetSongQueryResult>> GetSongsWithDetailsAsync()
@@ -49,7 +55,7 @@ public class SongRepository(SingHubContext context) : ISongService
 
     public async Task<GetSongByIdQueryResult> GetSongWithDetailsByIdAsync(int id)
     {
-        return await context.Set<Song>()
+        return await context.Songs
             .AsNoTracking()
             .Where(x => x.Id == id)
             .Select(x => new GetSongByIdQueryResult
@@ -66,8 +72,14 @@ public class SongRepository(SingHubContext context) : ISongService
                 GenreId = x.GenreId,
                 ArtistName = x.Artist.Name,
                 GenreName = x.Genre.Name,
-                AlbumTitle = x.Album != null ? x.Album.Title : null
+                AlbumTitle = x.Album != null ? x.Album.Title : null,
+                SelectedRoleIds = x.SongAppRoles.Where(r => r.RoleId != null).Select(r => r.RoleId).ToList()
             })
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<Song?> GetSongWithRolesByIdAsync(int id)
+    {
+        return await context.Songs.Include(x => x.SongAppRoles).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

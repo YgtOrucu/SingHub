@@ -10,7 +10,7 @@ internal class SongMappingProfile : Profile
     public SongMappingProfile()
     {
         CreateMap<CreateSongCommand, Song>();
-        CreateMap<UpdateSongCommand, Song>();
+        CreateMap<UpdateSongCommand, Song>().ForMember(desc => desc.SongAppRoles, opt => opt.Ignore());
 
         CreateMap<Song, GetSongQueryResult>()
             .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))

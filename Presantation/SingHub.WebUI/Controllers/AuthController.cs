@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using SingHub.Application.Bases;
 using SingHub.Dto.AuthDtos;
 using SingHub.WebUI.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -155,12 +156,12 @@ namespace SingHub.WebUI.Controllers
         #region GetErrorsMethod
         private async Task GetErrors(HttpResponseMessage response)
         {
-            var result = await response.Content.ReadFromJsonAsync<ApiResponseError>();
+            var result = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
             if (result?.Errors != null)
             {
                 foreach (var err in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, err.Message ?? "An error occurred.");
+                    ModelState.AddModelError(string.Empty, err.ErrorMessage ?? "An error occurred.");
                 }
             }
         }

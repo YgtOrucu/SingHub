@@ -165,7 +165,7 @@ input[type="date"]::-calendar-picker-indicator {
     }
 
 .page-number.active {
-    width: 36px;
+    width: 55px;
     height: 36px;
     display: inline-flex;
     align-items: center;

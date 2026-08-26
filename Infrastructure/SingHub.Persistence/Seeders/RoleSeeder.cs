@@ -11,7 +11,7 @@ public static class RoleSeeder
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 
-        string[] roles = ["Standart", "Basic", "Gold", "Premium", "Elit", "Admin"];
+        string[] roles = ["Free", "Basic", "Gold", "Premium", "Elit", "Admin"];
 
         foreach (var roleName in roles)
         {
@@ -41,7 +41,7 @@ public static class RoleSeeder
 
             if (createResult.Succeeded)
             {
-                await userManager.AddToRoleAsync(newAdmin, "Standart");
+                await userManager.AddToRoleAsync(newAdmin, "Admin");
             }
             else
             {
