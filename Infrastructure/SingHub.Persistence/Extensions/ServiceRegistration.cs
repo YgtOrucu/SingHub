@@ -43,6 +43,7 @@ public static class ServiceRegistration
         services.AddScoped<IArtistService, ArtistRepository>();
         services.AddScoped<ISongService, SongRepository>();
         services.AddScoped<IGenreService, GenreRepository>();
+        services.AddScoped<IDashboardService, DashboardRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
     }
 

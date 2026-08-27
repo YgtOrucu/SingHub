@@ -33,6 +33,7 @@ public class JwtService(UserManager<AppUser> userManager, IOptions<JwtTokenOptio
             new(JwtRegisteredClaimNames.Sub,user.Id.ToString()!),
             new(JwtRegisteredClaimNames.Email, user.Email!),
             new("FullName",string.Join(" ",user.Name,user.Surname)),
+            new("FirstAndLastLetter",string.Join("",user.Name.Substring(0,1),user.Surname.Substring(0,1))),
             new("security_stamp", user.SecurityStamp!),
         };
 

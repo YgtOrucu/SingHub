@@ -1,4 +1,7 @@
-﻿using System.Net.Http.Headers;
+﻿using SingHub.Application.Bases;
+using SingHub.WebUI.Models;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace SingHub.WebUI.CustomMiddlewares;
 
@@ -15,6 +18,17 @@ public class AuthTokenHandler(IHttpContextAccessor httpContextAccessor) : Delega
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-        return await base.SendAsync(request, cancellationToken);
+        var response =  await base.SendAsync(request, cancellationToken);
+
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            var customError = new BaseResult<ApiResponseError>
+            {
+                Message = "You do not have permission to access this page or resource. Please log in again.",
+            };
+            response.Content = JsonContent.Create(customError);
+        }
+
+        return response;
     }
 }

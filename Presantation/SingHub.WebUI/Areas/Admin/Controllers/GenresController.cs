@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SingHub.Application.Bases;
 using SingHub.Dto.ForAdminPageDtos.GenresDto;
+using SingHub.WebUI.Models;
 
 namespace SingHub.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class GenresController(IHttpClientFactory httpClientFactory) : Controller
+    public class GenresController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -17,6 +18,8 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 var value = await response.Content.ReadFromJsonAsync<BaseResult<List<ResultGenresDto>>>();
                 return View(value!.Data);
             }
+            var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
+            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View();
         }
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SingHub.Application.Bases;
 using SingHub.Application.Features.ForAdminFeatures.Users.Result;
 using SingHub.Dto.ForAdminPageDtos.UsersDtos;
@@ -8,8 +7,7 @@ using SingHub.WebUI.Models;
 namespace SingHub.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    public class UsersController(IHttpClientFactory httpClientFactory) : Controller
+    public class UsersController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
         private readonly HttpClient _httpClient = httpClientFactory.CreateClient("SingHubAPI");
 
@@ -23,8 +21,8 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 ViewBag.Roles = await GetAllRoles();       
                 return View(usersResult?.Data);
             }
-
-            await GetErrors(usersResponse);
+            var errorResult = await usersResponse.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
+            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View();
         }
 
@@ -52,20 +50,6 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        #region GetErrorsMethod
-        private async Task GetErrors(HttpResponseMessage response)
-        {
-            var result = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-            if (result?.Errors != null)
-            {
-                foreach (var err in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, err.ErrorMessage ?? "An error occurred.");
-                }
-            }
-        }
-        #endregion
+        }  
     }
 }

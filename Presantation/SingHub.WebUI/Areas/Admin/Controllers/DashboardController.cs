@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace SingHub.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
-    public class DashboardController : Controller
+    public class DashboardController : AdminBaseController
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

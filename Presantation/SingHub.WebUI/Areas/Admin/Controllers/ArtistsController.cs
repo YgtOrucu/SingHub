@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SingHub.Application.Bases;
 using SingHub.Dto.ForAdminPageDtos.ArtistsDto;
+using SingHub.WebUI.Models;
 
 namespace SingHub.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ArtistsController(IHttpClientFactory httpClientFactory) : Controller
+    public class ArtistsController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
      
         [HttpGet]
@@ -37,7 +38,8 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
 
                 return View(pagedData);
             }
-
+            var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
+            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View(new List<ResultArtistsDto>());
         }
 
