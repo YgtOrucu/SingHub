@@ -1,7 +1,7 @@
 ﻿using SingHub.Application.Features.Auths.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Albums.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Artists.Endpoint;
-using SingHub.Application.Features.ForAdminFeatures.Dashboard.StatGridCards.Endpoint;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Genres.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Songs.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Users.Endpoint;

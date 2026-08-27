@@ -31,7 +31,7 @@ public class SongRepository(SingHubContext context, RoleManager<AppRole> roleMan
 
     public async Task<List<GetSongQueryResult>> GetSongsWithDetailsAsync()
     {
-        return await context.Set<Song>()
+        return await context.Songs
             .AsNoTracking()
             .Select(x => new GetSongQueryResult
             {

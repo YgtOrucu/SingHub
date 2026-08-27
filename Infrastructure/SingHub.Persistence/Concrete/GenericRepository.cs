@@ -38,7 +38,7 @@ public class GenericRepository<T>(SingHubContext context) : IGenericRepository<T
         return await _dbset.AsNoTracking().FirstOrDefaultAsync(filter);
     }
 
-    public IQueryable GetByQuery()
+    public IQueryable<T> GetByQuery()
     {
         return _dbset;
     }

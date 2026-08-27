@@ -1,4 +1,7 @@
-﻿<div class="card table-card">
+﻿@model List<ResultTop5MostListenedToSongs>
+
+
+<div class="card table-card">
     <div class="card-header">
         <div class="title-wrap">
             <span class="mini-icon">
@@ -22,38 +25,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <div class="entity-cell">
-                        <div class="av">GY</div>
-                        <div class="name">Gece Yarısı</div>
-                    </div>
-                </td>
-                <td>Mert Taş</td>
-                <td><span class="tag-pill">Pop</span></td>
-                <td><strong>450.2K</strong></td>
-                <td>
-                    <div class="row-actions">
-                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="entity-cell">
-                        <div class="av">YA</div>
-                        <div class="name">Yıldız Akışı</div>
-                    </div>
-                </td>
-                <td>Elif Kaya</td>
-                <td><span class="tag-pill">Elektronik</span></td>
-                <td><strong>312.8K</strong></td>
-                <td>
-                    <div class="row-actions">
-                        <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
-                    </div>
-                </td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="entity-cell">
+                            <div class="name">@item.Title</div>
+                        </div>
+                    </td>
+                    <td>@item.ArtistName</td>
+                    <td><span class="tag-pill">@item.GenreName</span></td>
+                    <td><strong>@(item.ListenCount.ToString("N0") + " k")</strong></td>
+                    <td>
+                        <div class="row-actions">
+                            <button type="button" title="Düzenle" class="edit-btn"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 000-3L17 5a2.1 2.1 0 00-3 0L4 15v5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg></button>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

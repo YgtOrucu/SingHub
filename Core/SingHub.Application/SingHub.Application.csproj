@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\ForAdminFeatures\Dashboard\StatGridCards\Mapping\" />
     <Folder Include="Features\ForAdminFeatures\Users\Mapping\" />
     <Folder Include="Features\ForAdminFeatures\Users\Validators\" />
   </ItemGroup>

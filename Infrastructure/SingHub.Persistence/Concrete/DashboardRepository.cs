@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.StatGridCards.Result;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.Top5MostListenedToSongs.Result;
 using SingHub.Persistence.Context;
 
 namespace SingHub.Persistence.Concrete;
@@ -142,5 +143,20 @@ public class DashboardRepository(SingHubContext context) : IDashboardService
             return $"{count / 1_000.0:0.#} K";
 
         return count.ToString();
+    }
+
+    public async Task<List<Top5MostListenedToSongsQueryResult>> GetMostListenedToSongsQueryResultsAsync()
+    {
+        return await context.Songs
+           .AsNoTracking()
+           .Where(x => !x.IsDeleted)
+           .Select(x => new Top5MostListenedToSongsQueryResult
+           {
+               Title = x.Title,
+               ListenCount = x.ListenCount,
+               ArtistName = x.Artist.Name,
+               GenreName = x.Genre.Name,
+           })
+           .OrderByDescending(x => x.ListenCount).Take(5).ToListAsync();
     }
 }
