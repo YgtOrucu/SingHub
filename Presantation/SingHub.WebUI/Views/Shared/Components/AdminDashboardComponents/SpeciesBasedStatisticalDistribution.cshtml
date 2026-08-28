@@ -9,7 +9,7 @@
                 <div class="sub">Genres altındaki içerik yoğunluğu</div>
             </div>
         </div>
-        <button class="btn-ghost" type="button" data-action="view-all">Tümnü Gör</button>
+        <button class="btn-ghost" type="button" data-action="view-all">Tümünü Gör</button>
     </div>
     <table>
         <thead>
@@ -21,24 +21,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><span class="tag-pill">Pop</span></td>
-                <td>42,150</td>
-                <td>3:15 min</td>
-                <td><span class="status-pill active">Yüksek</span></td>
-            </tr>
-            <tr>
-                <td><span class="tag-pill">Rock</span></td>
-                <td>28,400</td>
-                <td>4:10 min</td>
-                <td><span class="status-pill active">Yüksek</span></td>
-            </tr>
-            <tr>
-                <td><span class="tag-pill">Akustik</span></td>
-                <td>15,800</td>
-                <td>3:45 min</td>
-                <td><span class="status-pill pending">Orta</span></td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><span class="tag-pill">@item.GenreName</span></td>
+                    <td>@item.TotalSongCount.ToString("N0")</td>
+                    <td>@item.AverageDurationFormatted</td>
+                    <td>
+                        <span class="status-pill @(item.PopularityLevel == "Yüksek" ? "active" : "pending")">
+                            @item.PopularityLevel
+                        </span>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingHub.Application.Contract.Persistence;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.GenreStatisticalDistributions.Result;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.GetRoleBasedUserDistribution.Result;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.StatGridCards.Result;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.Top5MostListenedToSongs.Result;
 using SingHub.Persistence.Context;
@@ -158,5 +160,36 @@ public class DashboardRepository(SingHubContext context) : IDashboardService
                GenreName = x.Genre.Name,
            })
            .OrderByDescending(x => x.ListenCount).Take(5).ToListAsync();
+    }
+
+    public async Task<List<GetGenreStatisticalDistributionQueryResult>> DistributionQueryResultsAsync()
+    {
+        return await context.Genres
+            .Select(g => new GetGenreStatisticalDistributionQueryResult
+            {
+                GenreId = g.Id,
+                GenreName = g.Name,
+                TotalSongCount = g.Songs.Count,
+                AverageDurationFormatted = g.Songs.Any()
+                        ? TimeSpan.FromSeconds(g.Songs.Average(s => s.Duration)).ToString(@"m\:ss") + " min"
+                        : "0:00 min",
+                PopularityLevel = g.Songs.Sum(s => s.ListenCount) > 50000 ? "Yüksek" : "Orta"
+            })
+                .ToListAsync();
+    }
+
+    public async Task<List<GetRoleBasedUserDistributionQueryResult>> GetRoleBasedUserDistributionQueriesAsync()
+    {
+        return await (from role in context.Roles
+                      join userRole in context.UserRoles on role.Id equals userRole.RoleId into userRolesGroup
+                      select new GetRoleBasedUserDistributionQueryResult
+                      {
+                          RoleName = role.Name,
+                          UserCount = userRolesGroup.Count(),
+                          AccessLevel = role.Name == "Admin" ? "Tam Yetki" :
+                                       role.Name == "Artist" ? "İçerik Yönetimi" :
+                                       role.Name == "Premium" ? "Dinleyici (Sınırsız)" : "Dinleyici (Kısıtlı)",
+                          Status = role.Name == "Free" ? "Kısıtlı" : "Aktif"
+                      }).ToListAsync();
     }
 }
