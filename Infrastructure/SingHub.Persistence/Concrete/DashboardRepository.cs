@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingHub.Application.Contract.Persistence;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.GenreStatisticalDistributions.Result;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.GetIdentityVerificationStatus.Result;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.GetRoleBasedUserDistribution.Result;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.StatGridCards.Result;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.Top5MostListenedToSongs.Result;
@@ -191,5 +192,23 @@ public class DashboardRepository(SingHubContext context) : IDashboardService
                                        role.Name == "Premium" ? "Dinleyici (Sınırsız)" : "Dinleyici (Kısıtlı)",
                           Status = role.Name == "Free" ? "Kısıtlı" : "Aktif"
                       }).ToListAsync();
+    }
+
+    public async Task<GetIdentityVerificationStatusQueryResult> IdentityVerificationStatusQueryResultsAsync()
+    {
+        var totalUsers = await context.Users.CountAsync();
+        var confirmedEmailCount = await context.Users.CountAsync(u => u.EmailConfirmed);
+        var twoFactorCount = await context.Users.CountAsync(u => u.TwoFactorEnabled);
+        var lockedOutCount = await context.Users.CountAsync(u => u.LockoutEnd.HasValue && u.LockoutEnd > DateTimeOffset.UtcNow);
+
+        double percentage = totalUsers > 0 ? (double)confirmedEmailCount / totalUsers * 100 : 0;
+
+        return new GetIdentityVerificationStatusQueryResult
+        {
+            ConfirmedEmailCount = confirmedEmailCount,
+            ConfirmedEmailPercentage = Math.Round(percentage, 1),
+            TwoFactorEnabledCount = twoFactorCount,
+            LockedOutUserCount = lockedOutCount
+        };
     }
 }

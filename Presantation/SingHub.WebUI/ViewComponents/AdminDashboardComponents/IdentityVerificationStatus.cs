@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SingHub.Application.Bases;
+using SingHub.Dto.ForAdminPageDtos.DashboardDto.IdentityVerificationStatusDto;
 
 namespace SingHub.WebUI.ViewComponents.AdminComponents
 {
-    public class IdentityVerificationStatus : ViewComponent
+    public class IdentityVerificationStatus(IHttpClientFactory _httpClientFactory) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+       
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("~/Views/Shared/Components/AdminDashboardComponents/IdentityVerificationStatus.cshtml");
+            var client = _httpClientFactory.CreateClient("SingHubAPI");
+            var responseMessage = await client.GetAsync("dashboard/IdentityVerificationStatus");
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var values = await responseMessage.Content.ReadFromJsonAsync<BaseResult<ResultIdentityVerificationStatus>>();
+                return View("~/Views/Shared/Components/AdminDashboardComponents/IdentityVerificationStatus.cshtml", values!.Data);
+            }
+
+            return View("~/Views/Shared/Components/AdminDashboardComponents/IdentityVerificationStatus.cshtml", new ResultIdentityVerificationStatus());
         }
     }
 }

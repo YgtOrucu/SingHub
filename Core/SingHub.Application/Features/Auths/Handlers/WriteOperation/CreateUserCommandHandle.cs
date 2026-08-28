@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SingHub.Application.Bases;
 using SingHub.Application.Contract.Persistence;
-using SingHub.Application.Exceptions;
 using SingHub.Application.Features.Auths.Commands;
 using SingHub.Domain.Entities;
 
@@ -22,15 +21,7 @@ public class CreateUserCommandHandle(UserManager<AppUser> userManager, IMapper m
 
         _ = Task.Run(async () =>
         {
-            try
-            {
-                await mailService.SendMail(user.Name, user.Surname, user.Email!);
-            }
-            catch (Exception ex)
-            {
-                throw new BadRequestException(ex.Message);
-            }
-
+            await mailService.SendMail(user.Name, user.Surname, user.Email!);
         });
 
         return BaseResult<object>.Success(result);

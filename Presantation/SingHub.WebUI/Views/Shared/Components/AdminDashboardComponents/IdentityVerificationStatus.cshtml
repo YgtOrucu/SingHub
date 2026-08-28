@@ -1,4 +1,6 @@
-﻿<div class="card table-card">
+﻿@model ResultIdentityVerificationStatus
+
+<div class="card table-card">
     <div class="card-header">
         <div class="title-wrap">
             <span class="mini-icon">
@@ -14,7 +16,6 @@
 
     <div style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
 
-        <!-- Öğe 1: E-Posta Doğrulaması (EmailConfirmed) -->
         <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
                 <div class="stat-icon green" style="width: 38px; height: 38px; border-radius: 8px;">
@@ -26,12 +27,11 @@
                 </div>
             </div>
             <div style="text-align: right;">
-                <div style="font-weight: 700; font-size: 1.1rem; color: #fff;">%94.2</div>
-                <div style="font-size: 0.75rem; opacity: 0.5;">22,840 Kullanıcı</div>
+                <div style="font-weight: 700; font-size: 1.1rem; color: #fff;">%@Model?.ConfirmedEmailPercentage.ToString("0.0")</div>
+                <div style="font-size: 0.75rem; opacity: 0.5;">@Model?.ConfirmedEmailCount.ToString("N0") Kullanıcı</div>
             </div>
         </div>
 
-        <!-- Öğe 2: İki Faktörlü Doğrulama (TwoFactorEnabled) -->
         <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
                 <div class="stat-icon cyan" style="width: 38px; height: 38px; border-radius: 8px;">
@@ -43,12 +43,11 @@
                 </div>
             </div>
             <div style="text-align: right;">
-                <div style="font-weight: 700; font-size: 1.1rem; color: #fff;">18,420</div>
+                <div style="font-weight: 700; font-size: 1.1rem; color: #fff;">@Model?.TwoFactorEnabledCount.ToString("N0")</div>
                 <span class="status-pill active" style="font-size: 0.7rem; padding: 2px 6px;">Yüksek Güvenlik</span>
             </div>
         </div>
 
-        <!-- Öğe 3: Riskli / Kilitli Hesaplar (AccessFailedCount & LockoutEnd) -->
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
                 <div class="stat-icon rose" style="width: 38px; height: 38px; border-radius: 8px;">
@@ -60,7 +59,7 @@
                 </div>
             </div>
             <div style="text-align: right;">
-                <div style="font-weight: 700; font-size: 1.1rem; color: #ef4444;">84</div>
+                <div style="font-weight: 700; font-size: 1.1rem; color: #ef4444;">@Model?.LockedOutUserCount.ToString("N0")</div>
                 <span class="status-pill banned" style="font-size: 0.7rem; padding: 2px 6px;">Müdahale Gerekebilir</span>
             </div>
         </div>

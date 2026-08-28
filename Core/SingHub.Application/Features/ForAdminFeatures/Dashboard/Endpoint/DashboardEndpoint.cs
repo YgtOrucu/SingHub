@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.GenreStatisticalDistributions.Queries;
+using SingHub.Application.Features.ForAdminFeatures.Dashboard.GetIdentityVerificationStatus.Queries;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.GetRoleBasedUserDistribution.Queries;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.StatGridCards.Queries;
 using SingHub.Application.Features.ForAdminFeatures.Dashboard.Top5MostListenedToSongs.Queries;
@@ -18,6 +19,13 @@ public static class DashboardEndpoint
         dashboard.MapGet("Top5MostListenedToSongs", GetTop5MostListenedToSongsAsync).AllowAnonymous();
         dashboard.MapGet("GenreStatisticalDistribution", GenreStatisticalDistributionAsync).AllowAnonymous();
         dashboard.MapGet("RoleBasedUserDistribution", RoleBasedUserDistributionAsync).AllowAnonymous();
+        dashboard.MapGet("IdentityVerificationStatus", IdentityVerificationStatusAsync).AllowAnonymous();
+    }
+
+    private static async Task<IResult> IdentityVerificationStatusAsync(IMediator mediator)
+    {
+        var response = await mediator.Send(new GetIdentityVerificationStatusQuery());
+        return response != null ? Results.Ok(response) : Results.BadRequest(response);
     }
 
     private static async Task<IResult> RoleBasedUserDistributionAsync(IMediator mediator)
