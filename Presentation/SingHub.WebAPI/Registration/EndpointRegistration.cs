@@ -5,6 +5,8 @@ using SingHub.Application.Features.ForAdminFeatures.Dashboard.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Genres.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Songs.Endpoint;
 using SingHub.Application.Features.ForAdminFeatures.Users.Endpoint;
+using SingHub.Application.Features.ForUsersFeatures.ArtistsDetails.Endpoint;
+using SingHub.Application.Features.ForUsersFeatures.PermissionToPermissionToSongPlayPlay.Endpoint;
 
 namespace SingHub.WebAPI.Registration
 {
@@ -19,6 +21,8 @@ namespace SingHub.WebAPI.Registration
             app.RegisterAlbumsEndpoint();
             app.RegisterSongsEndpoint();
             app.RegisterDashboardsEndpoint();
+            app.RegisterPermissionToSongPlaysEndpoint();
+            app.RegisterArtistDetailsEndpoint();
         }
     }
 }

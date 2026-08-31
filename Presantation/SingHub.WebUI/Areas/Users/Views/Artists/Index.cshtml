@@ -1,0 +1,91 @@
+﻿@model List<ResultArtistsDto>
+@{
+    ViewData["Title"] = "Sanatçılar";
+    Layout = "~/Views/PresantationLayout/Index.cshtml";
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="error-alert" role="alert">
+        <div class="alert-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" />
+                <path d="M12 8v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="12" cy="16" r="1" fill="currentColor" />
+            </svg>
+        </div>
+        <div class="alert-content">
+            <span class="alert-title">Bir hata oluştu</span>
+            <p class="alert-message">@TempData["ErrorMessage"]</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="page-header">
+        <div>
+            <h1>Sanatçılar</h1>
+            <p>SingHub'daki tüm sanatçıları keşfet, favori sanatçının şarkılarına hızlıca ulaş.</p>
+        </div>
+        <div class="header-meta">
+            <span class="count-pill">@(Model?.Count ?? 0) sanatçı</span>
+        </div>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v10.55" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /><circle cx="6.5" cy="17.5" r="3" stroke="currentColor" stroke-width="1.6" /><circle cx="17.5" cy="15.5" r="3" stroke="currentColor" stroke-width="1.6" /><path d="M12 3l7 2v8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <h3>Henüz sanatçı bulunmuyor</h3>
+            <p>Kütüphaneye yeni sanatçılar eklendiğinde burada listelenecek.</p>
+        </div>
+    }
+    else
+    {
+        <div class="artist-grid">
+            @foreach (var artist in Model)
+            {
+                var hasImage = !string.IsNullOrWhiteSpace(artist.ImageUrl);
+                var initials = "?";
+                if (!string.IsNullOrWhiteSpace(artist.Name))
+                {
+                    var parts = artist.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    initials = parts.Length >= 2
+                        ? $"{parts[0][0]}{parts[1][0]}".ToUpper()
+                        : artist.Name.Substring(0, Math.Min(2, artist.Name.Length)).ToUpper();
+                }
+
+                <div class="artist-card" data-artist-id="@artist.Id">
+                    <a class="artist-avatar-link" asp-controller="Song" asp-action="ArtistSongs" asp-route-id="@artist.Id" aria-label="@artist.Name şarkılarını gör">
+                        <div class="artist-avatar">
+                            @if (hasImage)
+                            {
+                                <img src="@artist.ImageUrl" alt="@artist.Name" loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="avatar-fallback">
+                                    <span>@initials</span>
+                                </div>
+                            }
+                            <div class="avatar-ring"></div>
+                            <div class="avatar-glow"></div>
+                        </div>
+                    </a>
+
+                    <div class="artist-info">
+                        <div class="artist-name" title="@artist.Name">@artist.Name</div>
+                        <span class="artist-tag">Sanatçı</span>
+                    </div>
+
+                    <a class="detail-btn" asp-controller="Artists" asp-action="ArtistSongs" asp-route-id="@artist.Id">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.7" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.7" /></svg>
+                        <span>Detay & Şarkıları</span>
+                        <svg class="arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+}

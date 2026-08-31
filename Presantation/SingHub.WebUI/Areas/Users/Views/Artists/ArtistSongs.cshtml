@@ -1,0 +1,168 @@
+﻿@model ResultArtistWithSongsDto
+@{
+    ViewData["Title"] = Model?.ArtistDto.Name ?? "Sanatçı Detayı";
+    Layout = "~/Views/PresantationLayout/Index.cshtml";
+
+    var hasBanner = !string.IsNullOrWhiteSpace(Model?.ArtistDto.BannerUrl);
+    var birthDateText = Model.ArtistDto.BirthDate?.ToString("dd MMMM yyyy");
+    var songCount = Model?.SongDtos?.Count ?? 0;
+}
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="error-alert" role="alert">
+        <div class="alert-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" />
+                <path d="M12 8v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="12" cy="16" r="1" fill="currentColor" />
+            </svg>
+        </div>
+        <div class="alert-content">
+            <span class="alert-title">Bir hata oluştu</span>
+            <p class="alert-message">@TempData["ErrorMessage"]</p>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="artist-hero @(hasBanner ? "" : "no-banner")" @(hasBanner ? Html.Raw($"style=\"--banner-url:url('{Model?.ArtistDto.BannerUrl}')\"") : null)>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-top">
+                <a class="back-link" asp-controller="Artists" asp-action="Index">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    Sanatçılara Dön
+                </a>
+            </div>
+
+            <div class="hero-main">
+                <h1 class="artist-name">@Model?.ArtistDto.Name</h1>
+
+                <div class="hero-meta">
+                    @if (!string.IsNullOrWhiteSpace(Model?.ArtistDto.Country))
+                    {
+                        <span class="meta-badge">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z" stroke="currentColor" stroke-width="1.6" /></svg>
+                            @Model?.ArtistDto.Country
+                        </span>
+                    }
+                    @if (birthDateText != null)
+                    {
+                        <span class="meta-badge">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5" width="17" height="16" rx="2.3" stroke="currentColor" stroke-width="1.6" /><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+                            @birthDateText
+                        </span>
+                    }
+                    <span class="meta-badge">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.6" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.6" /></svg>
+                        @songCount şarkı
+                    </span>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model?.ArtistDto.Biography))
+                {
+                    <p class="artist-bio" id="artistBio">@Model?.ArtistDto.Biography</p>
+                    <button type="button" class="bio-toggle" id="bioToggle" style="display:none;">Devamını oku</button>
+                }
+
+                <div class="hero-actions">
+                    <button type="button" class="play-all-btn" id="playAllBtn" @(songCount == 0 ? "disabled" : "")>
+                        <svg class="icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4.5v15l13-7.5-13-7.5z" fill="#fff" /></svg>
+                        <svg class="icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="#fff" /><rect x="14" y="4.5" width="4" height="15" rx="1" fill="#fff" /></svg>
+                        <span class="icon-spinner" style="display:none;"></span>
+                        <span class="btn-label">Tümünü Çal</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="songs-section">
+        <div class="section-title-row">
+            <h2>Şarkılar</h2>
+            <span>@songCount parça</span>
+        </div>
+
+        @if (Model?.SongDtos == null || !Model.SongDtos.Any())
+        {
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.6" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.6" /></svg>
+                </div>
+                <h3>Bu sanatçıya ait şarkı bulunmuyor</h3>
+                <p>Yeni şarkılar eklendiğinde burada listelenecek.</p>
+            </div>
+        }
+        else
+        {
+            <div class="song-list" id="songList">
+                @{
+                    var index = 0;
+                }
+                @foreach (var song in Model.SongDtos)
+                {
+                    index++;
+                    var duration = TimeSpan.FromSeconds(song.Duration < 0 ? 0 : song.Duration);
+                    var durationText = $"{(int)duration.TotalMinutes}:{duration.Seconds:D2}";
+                    var hasCover = !string.IsNullOrWhiteSpace(song.CoverImageUrl);
+
+                    <div class="song-row" data-song-id="@song.Id" data-audio-src="@song.AudioUrl" data-title="@song.Title" data-index="@(index - 1)">
+                        <div class="row-index">
+                            <span class="index-number">@index</span>
+                            <button type="button" class="row-play-btn" aria-label="Oynat / Duraklat">
+                                <svg class="icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4.5v15l13-7.5-13-7.5z" fill="#fff" /></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="#fff" /><rect x="14" y="4.5" width="4" height="15" rx="1" fill="#fff" /></svg>
+                                <span class="icon-spinner" style="display:none;"></span>
+                            </button>
+                        </div>
+
+                        <div class="row-cover">
+                            @if (hasCover)
+                            {
+                                <img src="@song.CoverImageUrl" alt="@song.Title" loading="lazy" />
+                            }
+                            else
+                            {
+                                <div class="cover-fallback">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" /></svg>
+                                </div>
+                            }
+                            <div class="eq-bars"><span></span><span></span><span></span><span></span></div>
+                        </div>
+
+                        <div class="row-title">
+                            <span class="title-text" title="@song.Title">@song.Title</span>
+                            <span class="title-artist">@Model.ArtistDto?.Name</span>
+                        </div>
+
+                        <div class="row-duration">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" /><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            @durationText
+                        </div>
+
+                        <audio class="song-audio" preload="none" src="@song.AudioUrl"></audio>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+
+<div class="access-modal-overlay" id="accessToast">
+    <div class="access-modal-card">
+        <div class="access-modal-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" />
+                <path d="M12 8v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="12" cy="16" r="1" fill="currentColor" />
+            </svg>
+        </div>
+        <h3 class="access-modal-title" id="accessToastMsg">Erişim Engellendi</h3>
+        <p class="access-modal-sub" id="accessToastSub">Bu şarkıyı dinlemek için gerekli rollere sahip değilsiniz.</p>
+        <button type="button" class="access-modal-btn" onclick="closeAccessToast()">Tamam</button>
+    </div>
+</div>

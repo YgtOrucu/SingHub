@@ -1,0 +1,32 @@
+﻿@model CheckLoginUser
+
+<header class="topbar">
+    <button class="hamburger" id="hamburgerBtn" type="button" aria-label="Menüyü aç">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18" stroke="#fff" stroke-width="1.8" stroke-linecap="round" /></svg>
+    </button>
+
+    <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" /><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+        <input type="text" placeholder="Şarkı, sanatçı veya albüm ara..." id="searchInput" />
+    </div>
+
+    <div class="topbar-right">
+        @if (Model.IsAuthenticated)
+        {
+            <a class="profile-chip">
+                <div class="profile-avatar">@Model.Initials</div>
+                <div>
+                    <div class="name">@Model.DisplayName</div>
+                    <div class="role">Hesabım</div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a class="btn-login" asp-controller="Auth" asp-action="Login" asp-area="">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /><path d="M10 17l5-5-5-5M15 12H3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>Giriş Yap</span>
+            </a>
+        }
+    </div>
+</header>

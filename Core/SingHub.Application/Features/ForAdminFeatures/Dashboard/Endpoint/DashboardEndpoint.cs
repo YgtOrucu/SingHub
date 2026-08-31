@@ -15,11 +15,11 @@ public static class DashboardEndpoint
     public static void RegisterDashboardsEndpoint(this IEndpointRouteBuilder app)
     {
         var dashboard = app.MapGroup("/dashboard").WithTags("Dashboard");   
-        dashboard.MapGet("StatGridCard", GetStatGridCardsAsync).AllowAnonymous();
-        dashboard.MapGet("Top5MostListenedToSongs", GetTop5MostListenedToSongsAsync).AllowAnonymous();
-        dashboard.MapGet("GenreStatisticalDistribution", GenreStatisticalDistributionAsync).AllowAnonymous();
-        dashboard.MapGet("RoleBasedUserDistribution", RoleBasedUserDistributionAsync).AllowAnonymous();
-        dashboard.MapGet("IdentityVerificationStatus", IdentityVerificationStatusAsync).AllowAnonymous();
+        dashboard.MapGet("StatGridCard", GetStatGridCardsAsync);
+        dashboard.MapGet("Top5MostListenedToSongs", GetTop5MostListenedToSongsAsync);
+        dashboard.MapGet("GenreStatisticalDistribution", GenreStatisticalDistributionAsync);
+        dashboard.MapGet("RoleBasedUserDistribution", RoleBasedUserDistributionAsync);
+        dashboard.MapGet("IdentityVerificationStatus", IdentityVerificationStatusAsync);
     }
 
     private static async Task<IResult> IdentityVerificationStatusAsync(IMediator mediator)

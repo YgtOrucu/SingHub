@@ -87,7 +87,7 @@ namespace SingHub.WebUI.Controllers
                 if (userRole == "Admin")
                     return RedirectToAction("Index", "Dashboard", new { Area = "Admin" });
 
-                return RedirectToAction("Index", "Dashboard", new { Area = "Users" });
+                return RedirectToAction("Index", "Songs", new { Area = "Users" });
             }
             return View(dto);
         }

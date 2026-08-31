@@ -25,12 +25,16 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=HomePage}/{action=Index}/{id?}"
-);
+    pattern: "{area:exists}/{controller=HomePage}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Login}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Users/Songs/Index");
+    return Task.CompletedTask;
+});
 
 app.Run();

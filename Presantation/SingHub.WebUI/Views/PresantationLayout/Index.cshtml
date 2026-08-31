@@ -1,0 +1,46 @@
+﻿@using SingHub.Dto.ForPresantationPageDtos.NavbarDto
+@{
+    ViewData["Title"] = "Presentation Panel | SingHub";
+    Layout = null;
+    var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
+    var displayName = isAuthenticated ? (User.Identity.Name ?? "Kullanıcı") : null;
+    var initials = "?";
+    if (!string.IsNullOrWhiteSpace(displayName))
+    {
+        var parts = displayName.Split(new[] { ' ', '.', '_' }, StringSplitOptions.RemoveEmptyEntries);
+        initials = parts.Length >= 2
+            ? $"{parts[0][0]}{parts[1][0]}".ToUpper()
+            : displayName.Substring(0, Math.Min(2, displayName.Length)).ToUpper();
+    }
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    @await Component.InvokeAsync("PresantationHead")
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="layout">
+        <!-- ===== Sidebar ===== -->
+        @await Component.InvokeAsync("PresantationSidebar")
+        <!-- ===== Main ===== -->
+        <div class="main">
+            @await Component.InvokeAsync("PresantationNavbar", new CheckLoginUser { IsAuthenticated = isAuthenticated, DisplayName = displayName, Initials = initials })
+
+            <main class="content">
+                @RenderBody()
+            </main>
+
+            <footer class="site-footer">
+                <p>&copy; @DateTime.Now.Year - Created by <span>Muhsin Yiğit Örücü</span></p>
+            </footer>
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("PresantationScript")
+</body>
+</html>
