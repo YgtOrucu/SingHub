@@ -28,7 +28,6 @@ namespace SingHub.WebAPI.CustomMiddlewares
                 };
                 await context.Response.WriteAsJsonAsync(response);
             }
-
             catch (Exception ex)
             {
                 context.Response.ContentType = "application/json";
