@@ -16,18 +16,21 @@
 
 <div class="form-container">
     <div class="card form-card">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="color: #ef4444; background-color: #fef2f2; border: 1px solid #fee2e2; padding: 12px; border-radius: 8px; margin-bottom: 20px;"></div>
+
         <form asp-action="UpdateAlbums" method="post" autocomplete="off">
             <input type="hidden" asp-for="Id" />
 
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label class="form-label">Albüm Adı <span class="required">*</span></label>
-                    <input type="text" asp-for="Title" class="form-control" required />
+                    <input type="text" asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
                     <label class="form-label">Sanatçı Seçin <span class="required">*</span></label>
-                    <select asp-for="ArtistId" class="form-control" required>
+                    <select asp-for="ArtistId" class="form-control">
                         <option value="">-- Sanatçı Seçiniz --</option>
                         @if (artists != null)
                         {
@@ -37,18 +40,21 @@
                             }
                         }
                     </select>
+                    <span asp-validation-for="ArtistId" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label class="form-label">Yayın Tarihi <span class="required">*</span></label>
-                    <input type="date" asp-for="ReleaseDate" class="form-control" value="@(Model?.ReleaseDate != DateTime.MinValue ? Model?.ReleaseDate.ToString("yyyy-MM-dd") : "")" required />
+                    <input type="date" asp-for="ReleaseDate" class="form-control" value="@(Model?.ReleaseDate != DateTime.MinValue ? Model?.ReleaseDate.ToString("yyyy-MM-dd") : "")" />
+                    <span asp-validation-for="ReleaseDate" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
                     <label class="form-label">Kapak Görsel URL</label>
                     <input type="text" asp-for="CoverImageUrl" id="albumCoverUrl" class="form-control" />
+                    <span asp-validation-for="CoverImageUrl" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
             </div>
 

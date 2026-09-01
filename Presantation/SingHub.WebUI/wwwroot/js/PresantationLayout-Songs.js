@@ -85,6 +85,17 @@
     var cards = Array.prototype.slice.call(document.querySelectorAll('.song-card'));
     var currentlyPlaying = null;
 
+      var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            var term = searchInput.value.trim().toLowerCase();
+            cards.forEach(function (card) {
+                var text = card.textContent.toLowerCase();
+                card.style.display = text.indexOf(term) !== -1 ? '' : 'none';
+            });
+        });
+    }
+
     function setCardPlayingState(card, isPlaying) {
         var playIcon = card.querySelector('.icon-play');
         var pauseIcon = card.querySelector('.icon-pause');
@@ -99,7 +110,6 @@
         }
     }
 
-    // İkon durumlarını sıfırlayan güncellenmiş kontrol fonksiyonu
     function setButtonChecking(card, playBtn, isChecking) {
         var playIcon = playBtn.querySelector('.icon-play');
         var pauseIcon = playBtn.querySelector('.icon-pause');
@@ -117,7 +127,6 @@
             playBtn.disabled = false;
             if (spinner) spinner.style.display = 'none';
 
-            // Kontrol bittiğinde çalıp çalmama durumuna göre doğru ikonu geri getir
             setCardPlayingState(card, isPlaying);
         }
     }

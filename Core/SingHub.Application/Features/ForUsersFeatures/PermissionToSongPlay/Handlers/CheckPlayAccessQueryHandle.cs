@@ -27,7 +27,10 @@ public class CheckPlayAccessQueryHandle(UserManager<AppUser> userManager, RoleMa
         }
 
         var getUserRole = await userManager.GetRolesAsync(getUserDetails);
-
+        if(getUserRole.Contains("Admin"))
+        {
+            return BaseResult<object>.Success("Access successful.", true);
+        }
 
         var songRoleIds = _songAppRoleservice.GetByQuery().Where(x => x.SongId == request.SongId).Select(y => y.RoleId).ToList();
 

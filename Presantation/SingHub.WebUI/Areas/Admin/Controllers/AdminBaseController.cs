@@ -4,6 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace SingHub.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminBaseController : Controller { }
 }

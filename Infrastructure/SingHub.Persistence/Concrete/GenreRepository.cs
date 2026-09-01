@@ -15,7 +15,9 @@ public class GenreRepository(SingHubContext context) : IGenreService
             ImageUrl = x.ImageUrl,
             Name = x.Name,
             Description = x.Description,
-            SongByGenreCount = x.Songs.Where(x => !x.IsDeleted).Count()
+            SongByGenreCount = x.Songs.Where(x => !x.IsDeleted).Count(),
+            IsDeleted = x.IsDeleted
+
         }).ToListAsync();
     }
 }

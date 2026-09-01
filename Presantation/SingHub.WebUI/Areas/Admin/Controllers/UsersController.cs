@@ -22,7 +22,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 return View(usersResult?.Data);
             }
             var errorResult = await usersResponse.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
+            ViewData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View();
         }
 

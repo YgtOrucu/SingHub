@@ -2,7 +2,7 @@
 
 namespace SingHub.Dto.ForAdminPageDtos.GenresDto;
 
-public class ResultGenresDto : BaseEntity
+public class ResultGenresDto : AuditableEntity
 {
     public string? Name { get; set; }
     public string? Description { get; set; }

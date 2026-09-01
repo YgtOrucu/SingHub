@@ -104,7 +104,8 @@ public class DashboardRepository(SingHubContext context) : IDashboardService
         var deletedSongs = await context.Songs.IgnoreQueryFilters().CountAsync(s => s.IsDeleted);
         var deletedAlbums = await context.Albums.IgnoreQueryFilters().CountAsync(a => a.IsDeleted);
         var deletedArtists = await context.Artists.IgnoreQueryFilters().CountAsync(a => a.IsDeleted);
-        var archivedItemCount = deletedSongs + deletedAlbums + deletedArtists;
+        var deletedGenres = await context.Genres.IgnoreQueryFilters().CountAsync(a => a.IsDeleted);
+        var archivedItemCount = deletedSongs + deletedAlbums + deletedArtists + deletedGenres;
 
         // 10. İki Faktörlü Doğrulama Kullanan Kullanıcı Sayısı
         var twoFactorUserCount = await context.Users.CountAsync(u => u.TwoFactorEnabled);

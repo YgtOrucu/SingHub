@@ -9,7 +9,7 @@
 }
 
 
-@if (TempData["ErrorMessage"] != null)
+@if (ViewData["ErrorMessage"] != null)
 {
     <div class="error-alert" role="alert">
         <div class="alert-icon">
@@ -21,7 +21,7 @@
         </div>
         <div class="alert-content">
             <span class="alert-title">Bir hata oluştu</span>
-            <p class="alert-message">@TempData["ErrorMessage"]</p>
+            <p class="alert-message">@ViewData["ErrorMessage"]</p>
         </div>
     </div>
 }

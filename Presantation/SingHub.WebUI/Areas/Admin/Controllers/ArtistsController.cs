@@ -8,7 +8,6 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class ArtistsController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
-     
         [HttpGet]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
@@ -39,7 +38,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 return View(pagedData);
             }
             var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
+            ViewData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View(new List<ResultArtistsDto>());
         }
 
@@ -54,9 +53,11 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
         {
             var client = httpClientFactory.CreateClient("SingHubAPI");
             var response = await client.PostAsJsonAsync("artist", dto);
+
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            await HandleApiErrorsAsync(response);
             return View(dto);
         }
 
@@ -82,6 +83,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            await HandleApiErrorsAsync(response);
             return View(dto);
         }
 
@@ -93,6 +95,36 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 return RedirectToAction("Index");
 
             return View();
+        }
+        private async Task HandleApiErrorsAsync(HttpResponseMessage response)
+        {
+            try
+            {
+                var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<object>>();
+
+                if (errorResult != null)
+                {
+                    if (!string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        ModelState.AddModelError(string.Empty, errorResult.Message);
+                    }
+
+                    if (errorResult.Errors != null && errorResult.Errors.Any())
+                    {
+                        foreach (var error in errorResult.Errors)
+                        {
+                            string key = error.Code ?? string.Empty;
+                            string message = error.ErrorMessage ?? "Bir hata oluştu.";
+
+                            ModelState.AddModelError(key, message);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Sunucudan gelen yanıt ayrıştırılamadı. Lütfen tekrar deneyin.");
+            }
         }
     }
 }

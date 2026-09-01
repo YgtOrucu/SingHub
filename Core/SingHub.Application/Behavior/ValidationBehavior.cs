@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-
 namespace SingHub.Application.Behavior;
 
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> _validators) : IPipelineBehavior<TRequest, TResponse>

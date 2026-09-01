@@ -19,24 +19,28 @@
 
 <div class="form-container">
     <div class="card form-card">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="color: #ef4444; background-color: #fef2f2; border: 1px solid #fee2e2; padding: 12px; border-radius: 8px; margin-bottom: 20px;"></div>
+
         <form asp-action="CreateSongs" method="post" autocomplete="off">
 
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label class="form-label">Şarkı Adı <span class="required">*</span></label>
-                    <input type="text" asp-for="Title" class="form-control" placeholder="Örn: Blinding Lights, Starboy" required />
+                    <input type="text" asp-for="Title" class="form-control" placeholder="Örn: Blinding Lights, Starboy" />
+                    <span asp-validation-for="Title" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
                     <label class="form-label">Süre (Saniye) <span class="required">*</span></label>
-                    <input type="number" asp-for="Duration" class="form-control" placeholder="Örn: 200" required />
+                    <input type="number" asp-for="Duration" class="form-control" placeholder="Örn: 200" />
+                    <span asp-validation-for="Duration" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label class="form-label">Sanatçı Seçin <span class="required">*</span></label>
-                    <select asp-for="ArtistId" class="form-control" required>
+                    <select asp-for="ArtistId" class="form-control">
                         <option value="">-- Sanatçı Seçiniz --</option>
                         @if (artists != null)
                         {
@@ -46,11 +50,12 @@
                             }
                         }
                     </select>
+                    <span asp-validation-for="ArtistId" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
                     <label class="form-label">Müzik Türü Seçin <span class="required">*</span></label>
-                    <select asp-for="GenreId" class="form-control" required>
+                    <select asp-for="GenreId" class="form-control">
                         <option value="">-- Tür Seçiniz --</option>
                         @if (genres != null)
                         {
@@ -60,6 +65,7 @@
                             }
                         }
                     </select>
+                    <span asp-validation-for="GenreId" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
@@ -74,6 +80,7 @@
                             }
                         }
                     </select>
+                    <span asp-validation-for="AlbumId" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
             </div>
 
@@ -101,23 +108,27 @@
                         <p class="text-muted">Tanımlı paket/rol bulunamadı.</p>
                     }
                 </div>
+                <span asp-validation-for="SelectedRoleIds" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
             </div>
 
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label class="form-label">Ses Dosyası URL (Audio URL) <span class="required">*</span></label>
-                    <input type="text" asp-for="AudioUrl" class="form-control" placeholder="https://domain.com/audio.mp3" required />
+                    <input type="text" asp-for="AudioUrl" class="form-control" placeholder="https://domain.com/audio.mp3" />
+                    <span asp-validation-for="AudioUrl" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
 
                 <div class="form-group flex-1">
                     <label class="form-label">Yayın Tarihi <span class="required">*</span></label>
-                    <input type="date" asp-for="ReleaseDate" class="form-control" required />
+                    <input type="date" asp-for="ReleaseDate" class="form-control" />
+                    <span asp-validation-for="ReleaseDate" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="form-label">Kapak Görsel URL (Cover Image)</label>
                 <input type="text" asp-for="CoverImageUrl" id="songCoverUrl" class="form-control" placeholder="https://domain.com/cover.jpg" />
+                <span asp-validation-for="CoverImageUrl" style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;"></span>
             </div>
 
             <div class="album-preview-wrapper">

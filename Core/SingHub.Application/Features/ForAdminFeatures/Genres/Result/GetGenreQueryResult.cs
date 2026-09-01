@@ -2,7 +2,7 @@
 
 namespace SingHub.Application.Features.ForAdminFeatures.Genres.Result;
 
-public class GetGenreQueryResult : BaseDto
+public class GetGenreQueryResult : AuditableDto
 {
     public string? Name { get; set; }
     public string? Description { get; set; }

@@ -24,7 +24,7 @@ public class AuthTokenHandler(IHttpContextAccessor httpContextAccessor) : Delega
         {
             var customError = new BaseResult<ApiResponseError>
             {
-                Message = "You do not have permission to access this page or resource. Please log in again.",
+                Message = "Your package is not suitable for this song.Please contact the Administrator.",
             };
             response.Content = JsonContent.Create(customError);
         }

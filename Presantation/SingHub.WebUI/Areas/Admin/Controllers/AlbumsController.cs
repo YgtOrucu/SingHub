@@ -40,7 +40,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             }
 
             var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
+            ViewData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View(new List<ResultAlbumsDto>());
         }
 
@@ -51,7 +51,6 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateAlbums(CreateAlbumsDto dto)
         {
@@ -59,6 +58,9 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            await HandleApiErrorsAsync(response);
+
+            ViewBag.Artist = await GetArtist();
             return View(dto);
         }
 
@@ -83,6 +85,9 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            await HandleApiErrorsAsync(response);
+
+            ViewBag.Artist = await GetArtist();
             return View(dto);
         }
 
@@ -94,6 +99,7 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
 
             return View();
         }
+
         private async Task<dynamic> GetArtist()
         {
             var response = await _httpClient.GetAsync("album/GetArtistForUpsert");
@@ -103,6 +109,37 @@ namespace SingHub.WebUI.Areas.Admin.Controllers
                 return result?.Data ?? new List<GetArtistForUpsertDto>();
             }
             return new List<GetArtistForUpsertDto>();
+        }
+
+        private async Task HandleApiErrorsAsync(HttpResponseMessage response)
+        {
+            try
+            {
+                var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<object>>();
+
+                if (errorResult != null)
+                {
+                    if (!string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        ModelState.AddModelError(string.Empty, errorResult.Message);
+                    }
+
+                    if (errorResult.Errors != null && errorResult.Errors.Any())
+                    {
+                        foreach (var error in errorResult.Errors)
+                        {
+                            string key = error.Code ?? string.Empty;
+                            string message = error.ErrorMessage ?? "Bir hata oluştu.";
+
+                            ModelState.AddModelError(key, message);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Sunucudan gelen yanıt okunamadı. Lütfen tekrar deneyin.");
+            }
         }
     }
 }

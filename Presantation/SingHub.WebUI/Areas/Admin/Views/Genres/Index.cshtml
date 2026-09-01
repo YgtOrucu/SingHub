@@ -31,7 +31,7 @@
             <span class="stat-trend up">Aktif</span>
         </div>
         <div>
-            <div class="stat-value">@(Model != null ? Model.Count : 0)</div>
+            <div class="stat-value">@(Model != null ? Model.Where(x => !x.IsDeleted).Count() : 0)</div>
             <div class="stat-label">Toplam Kayıtlı Tür</div>
         </div>
     </div>
@@ -79,7 +79,7 @@
         <tbody id="genreListBody">
             @if (Model != null && Model.Any())
             {
-                @foreach (var genre in Model)
+                @foreach (var genre in Model.Where(x => !x.IsDeleted))
                 {
                     <tr>
                         <td>
@@ -134,10 +134,10 @@
             {
                 <tr>
                     <td colspan="4" class="table-empty-cell">
-                        @if (TempData["ErrorMessage"] != null)
+                        @if (ViewData["ErrorMessage"] != null)
                         {
                             <div style="color: #ef4444; font-weight: 500; padding: 20px 0;">
-                                ⚠️ @TempData["ErrorMessage"]
+                                ⚠️ @ViewData["ErrorMessage"]
                             </div>
                         }
                         else

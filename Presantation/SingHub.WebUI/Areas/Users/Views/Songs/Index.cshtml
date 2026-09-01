@@ -4,7 +4,7 @@
     Layout = "~/Views/PresantationLayout/Index.cshtml";
 }
 
-@if (TempData["ErrorMessage"] != null)
+@if (ViewData["ErrorMessage"] != null)
 {
     <div class="error-alert" role="alert">
         <div class="alert-icon">
@@ -15,8 +15,8 @@
             </svg>
         </div>
         <div class="alert-content">
-            <span class="alert-title">Bir hata oluştu</span>
-            <p class="alert-message">@TempData["ErrorMessage"]</p>
+            <span class="alert-title">An error occurred</span>
+            <p class="alert-message">@ViewData["ErrorMessage"]</p>
         </div>
     </div>
 }
@@ -27,16 +27,25 @@ else
             <h1>Şarkılar</h1>
             <p>SingHub kütüphanesindeki tüm şarkıları keşfet ve hemen dinlemeye başla.</p>
         </div>
-        <div class="header-meta">
-            <span class="count-pill">@(Model?.Count ?? 0) şarkı</span>
-        </div>
+    </div>
+
+    <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" />
+            <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+        <input type="text" placeholder="Şarkı ara..." id="searchInput" />
     </div>
 
     @if (Model == null || !Model.Any())
     {
         <div class="empty-state">
             <div class="empty-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.6" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.6" /></svg>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.6" />
+                    <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.6" />
+                </svg>
             </div>
             <h3>Henüz şarkı bulunmuyor</h3>
             <p>Kütüphaneye yeni şarkılar eklendiğinde burada listelenecek.</p>
@@ -60,7 +69,11 @@ else
                         else
                         {
                             <div class="cover-fallback">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" /><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" /></svg>
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" />
+                                    <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" />
+                                </svg>
                             </div>
                         }
 
@@ -92,7 +105,6 @@ else
             }
         </div>
     }
-
 }
 
 <div class="access-modal-overlay" id="accessToast">

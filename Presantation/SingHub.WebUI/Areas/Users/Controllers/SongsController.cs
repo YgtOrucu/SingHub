@@ -20,7 +20,7 @@ namespace SingHub.WebUI.Areas.Users.Controllers
                 return View(value!.Data);
             }
             var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-            TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
+            ViewData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
             return View(new List<ResultSongsDto>());
         }
 

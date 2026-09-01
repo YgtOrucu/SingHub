@@ -4,6 +4,7 @@
     Layout = null;
     var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
     var displayName = isAuthenticated ? (User.Identity.Name ?? "Kullanıcı") : null;
+    var userRoles = User?.FindFirst("Role")?.Value;
     var initials = "?";
     if (!string.IsNullOrWhiteSpace(displayName))
     {
@@ -29,7 +30,7 @@
         @await Component.InvokeAsync("PresantationSidebar")
         <!-- ===== Main ===== -->
         <div class="main">
-            @await Component.InvokeAsync("PresantationNavbar", new CheckLoginUser { IsAuthenticated = isAuthenticated, DisplayName = displayName, Initials = initials })
+            @await Component.InvokeAsync("PresantationNavbar", new CheckLoginUser { IsAuthenticated = isAuthenticated, DisplayName = displayName, Initials = initials, RoleName = userRoles })
 
             <main class="content">
                 @RenderBody()

@@ -17,8 +17,7 @@ public static class SongValidationRules
     {
         return ruleBuilder
             .NotEmpty().WithMessage("Audio URL is required.")
-            .MaximumLength(1000).WithMessage("Audio URL must not exceed 1000 characters.")
-            .Must(BeValidUrl).WithMessage("Please enter a valid audio URL format.");
+            .MaximumLength(1000).WithMessage("Audio URL must not exceed 1000 characters.");
     }
 
     public static IRuleBuilderOptions<T, string?> SongCoverImageUrl<T>(this IRuleBuilder<T, string?> ruleBuilder)

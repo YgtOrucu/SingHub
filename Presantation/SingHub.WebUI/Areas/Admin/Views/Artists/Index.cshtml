@@ -160,10 +160,10 @@
             {
                 <tr>
                     <td colspan="5" class="table-empty-cell">
-                        @if (TempData["ErrorMessage"] != null)
+                        @if (ViewData["ErrorMessage"] != null)
                         {
                             <div style="color: #ef4444; font-weight: 500; padding: 20px 0;">
-                                ⚠️ @TempData["ErrorMessage"]
+                                ⚠️ @ViewData["ErrorMessage"]
                             </div>
                         }
                         Henüz kayıtlı bir sanatçı bulunamadı.

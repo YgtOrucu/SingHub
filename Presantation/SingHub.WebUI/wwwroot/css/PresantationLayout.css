@@ -253,39 +253,6 @@ a {
         height: 18px;
     }
 
-.search-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 12px;
-    padding: 10px 14px;
-    flex: 1;
-    max-width: 420px;
-}
-
-    .search-box svg {
-        width: 16px;
-        height: 16px;
-        color: var(--text-muted);
-        flex-shrink: 0;
-    }
-
-    .search-box input {
-        background: transparent;
-        border: none;
-        outline: none;
-        color: #fff;
-        font-family: inherit;
-        font-size: 13.5px;
-        width: 100%;
-    }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-
 .topbar-right {
     margin-left: auto;
     display: flex;

@@ -41,7 +41,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : AdminBaseCo
             return View(pagedData);
         }
         var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<ApiResponseError>>();
-        TempData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
+        ViewData["ErrorMessage"] = errorResult?.Message ?? "You do not have permission to access";
         return View(new List<ResultSongsDto>());
     }
 
@@ -59,6 +59,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : AdminBaseCo
         if (response.IsSuccessStatusCode)
             return RedirectToAction("Index");
 
+        await HandleApiErrorsAsync(response);
         await LoadViewBagsAsync();
         return View(dto);
     }
@@ -84,6 +85,7 @@ public class SongsController(IHttpClientFactory httpClientFactory) : AdminBaseCo
         if (response.IsSuccessStatusCode)
             return RedirectToAction("Index");
 
+        await HandleApiErrorsAsync(response);
         await LoadViewBagsAsync();
         return View(dto);
     }
@@ -114,5 +116,35 @@ public class SongsController(IHttpClientFactory httpClientFactory) : AdminBaseCo
             return result?.Data ?? new List<T>();
         }
         return new List<T>();
+    }
+    private async Task HandleApiErrorsAsync(HttpResponseMessage response)
+    {
+        try
+        {
+            var errorResult = await response.Content.ReadFromJsonAsync<BaseResult<object>>();
+
+            if (errorResult != null)
+            {
+                if (!string.IsNullOrEmpty(errorResult.Message))
+                {
+                    ModelState.AddModelError(string.Empty, errorResult.Message);
+                }
+
+                if (errorResult.Errors != null && errorResult.Errors.Any())
+                {
+                    foreach (var error in errorResult.Errors)
+                    {
+                        string key = error.Code ?? string.Empty;
+                        string message = error.ErrorMessage ?? "Bir hata oluştu.";
+
+                        ModelState.AddModelError(key, message);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            ModelState.AddModelError(string.Empty, "Sunucudan gelen yanıt ayrıştırılamadı. Lütfen tekrar deneyin.");
+        }
     }
 }
