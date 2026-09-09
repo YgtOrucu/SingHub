@@ -24,9 +24,4 @@
     <ProjectReference Include="..\SingHub.Domain\SingHub.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\ForAdminFeatures\Users\Mapping\" />
-    <Folder Include="Features\ForAdminFeatures\Users\Validators\" />
-  </ItemGroup>
-
 </Project>
